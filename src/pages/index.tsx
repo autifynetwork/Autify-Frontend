@@ -1,10 +1,18 @@
+import Router from 'next/router';
+import Button from '@/components/ui/Button';
+
 export default function Home() {
-  return (
-    <>
-      <div>
-        <div>Hi</div>
-        <div>Hi1</div>
-      </div>
-    </>
-  )
+    return (
+        <div className="w-full flex flex-col items-center justify-center bg-light-100">
+            <div className="w-full max-w-[1920px] h-screen flex flex-col">
+                <div className="w-full h-full flex flex-col items-center justify-center">
+                    <div className="w-1/5">
+                        <Button primary={true} onClick={() => Router.push('auth/admin-login')}>
+                            Login
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
