@@ -80,7 +80,7 @@ export default function AdminLogin() {
                             />
 
                             <div className="mt-6">
-                                <Button primary={true} isLoading={isDisabled} classes="text-md px-8 py-3">
+                                <Button variant="primary" isLoading={isDisabled} classes="text-md px-8 py-3">
                                     Sign In
                                 </Button>
                             </div>

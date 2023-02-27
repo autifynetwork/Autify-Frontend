@@ -43,7 +43,7 @@ export default function Dashboard() {
                                         <p className="profile-info">{user.issuer}</p>
                                     </div>
 
-                                    <Button secondary={true} onClick={() => logout()}>
+                                    <Button variant="secondary" onClick={() => logout()}>
                                         Logout
                                     </Button>
                                 </div>
