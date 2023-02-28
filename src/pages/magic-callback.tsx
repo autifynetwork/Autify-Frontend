@@ -2,11 +2,13 @@ import { useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { magic } from '@/lib/magic';
 import { UserContext } from '@/store/UserContext';
+import { LoadingContext } from '@/store/LoadingContext';
 import Loading from '@/components/ui/Loading';
 
 const Callback = () => {
     const router = useRouter();
     const [, setUser] = useContext(UserContext);
+    const [, setLoading] = useContext(LoadingContext);
 
     // The redirect contains a `provider` query param if the user is logging in with a social provider
     useEffect(() => {
@@ -15,8 +17,9 @@ const Callback = () => {
 
     // `loginWithCredential()` returns a didToken for the user logging in
     const finishEmailRedirectLogin = () => {
-        if (router.query.magic_credential && magic)
+        if (router.query.magic_credential && magic) {
             magic.auth.loginWithCredential().then((didToken) => authenticateWithServer(didToken));
+        }
     };
 
     // Send token to server to validate
@@ -33,7 +36,8 @@ const Callback = () => {
             // Set the UserContext to the now logged in user
             let userMetadata = await magic.user.getMetadata();
             await setUser(userMetadata);
-            router.push('/profile');
+            router.push('/dashboard');
+            setLoading({ status: false });
         }
     };
 
