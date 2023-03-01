@@ -1,14 +1,17 @@
 import { useContext } from 'react';
 import Router from 'next/router';
 import { magic } from '@/lib/magic';
-import { UserContext } from '@/store/UserContext';
+import { UserContext,UserContextType } from '@/store/UserContext';
 import Loading from '@/components/ui/Loading';
 import Button from '@/components/ui/Button';
+import { useSmartAccountContext } from '@/store/SmartAccountContext';
 
-export default function Dashboard() {
-    const { user, setUser } = useContext(UserContext);
+export default function Dashboard():JSX.Element {
+    const { user, setUser } = useContext<UserContextType>(UserContext);
+    const { selectedAccount,loading } = useSmartAccountContext()
+    
 
-    const logout = () => {
+    const logout:(()=>void) = () =>{
         magic &&
             magic.user.logout().then(() => {
                 setUser(null as any);
@@ -18,9 +21,10 @@ export default function Dashboard() {
 
     return (
         <>
-            {!user ? (
+            {!user || loading ?  (
                 <Loading status={true} section={true} />
             ) : (
+                    
                 user?.issuer && (
                     <div className="w-full flex flex-col items-center justify-center bg-light-100">
                         <div className="w-full max-w-[1920px] h-screen flex flex-col">
@@ -36,13 +40,19 @@ export default function Dashboard() {
                                     <div className="flex flex-col items-center justify-center">
                                         <p className="label">Wallet Address</p>
                                         <p className="profile-info">{user.publicAddress}</p>
-                                    </div>
+                                        </div>
+                                        
+                                        {selectedAccount?.smartAccountAddress &&
+                                            <div className="flex flex-col items-center justify-center">
+                                                <p className="label">Smart Account Address</p>
+                                                <p className="profile-info">{selectedAccount.smartAccountAddress}</p>
+                                            </div>}
 
                                     <div className="flex flex-col items-center justify-center">
                                         <p className="label">User Id</p>
                                         <p className="profile-info">{user.issuer}</p>
-                                    </div>
-
+                                        </div>
+                                        
                                     <Button variant="secondary" onClick={() => logout()}>
                                         Logout
                                     </Button>
