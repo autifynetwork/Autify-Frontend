@@ -30,7 +30,6 @@ const Layout = ({ children }: any) => {
                         });
                 } else {
                     Router.push('/auth/admin-login');
-                    setUser(null as any);
                 }
             });
     }, []);
