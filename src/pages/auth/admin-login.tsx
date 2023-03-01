@@ -2,22 +2,23 @@ import { useState, useEffect, useContext } from 'react';
 import Image from 'next/image';
 import Router from 'next/router';
 import { magic } from '@/lib/magic';
-import { UserContext } from '@/store/UserContext';
-import { LoadingContext } from '@/store/LoadingContext';
+import { UserContext, UserContextType } from '@/store/UserContext';
+import { LoadingContext, LoadingContextType } from '@/store/LoadingContext';
 import Button from '@/components/ui/Button';
 
-export default function AdminLogin() {
-    const [email, setEmail] = useState('');
-    const [isDisabled, setDisabled] = useState(false);
-    const { loading, setLoading } = useContext(LoadingContext);
-    const { user, setUser } = useContext(UserContext);
+export default function AdminLogin():JSX.Element {
+    const [email, setEmail] = useState<string>('');
+    const [isDisabled, setDisabled] = useState<boolean>(false);
+    const { loading, setLoading } = useContext<LoadingContextType>(LoadingContext);
+    const { user, setUser } = useContext<UserContextType>(UserContext);
+    
 
     // Redirect to /dashboard if the user is logged in
     useEffect(() => {
         user?.issuer && Router.push('/dashboard');
     }, [user]);
 
-    async function handleLoginWithEmail() {
+    async function handleLoginWithEmail():Promise<void> {
         try {
             if (magic) {
                 setDisabled(true); // disable login button to prevent multiple emails from being triggered
@@ -41,7 +42,8 @@ export default function AdminLogin() {
                 if (res.status === 200) {
                     // Set the UserContext to the now logged in user
                     let userMetadata = await magic.user.getMetadata();
-                    setUser({ ...userMetadata, provider: magic.rpcProvider });
+                    setUser({ ...userMetadata, provider: magic.rpcProvider })
+
                     Router.push('/dashboard');
                     setLoading({ ...loading, status: false });
                 }

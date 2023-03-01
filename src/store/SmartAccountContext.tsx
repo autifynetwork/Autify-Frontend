@@ -38,6 +38,10 @@ type smartAccountContextType = {
     getSmartAccountBalance: () => Promise<string>;
 };
 
+
+const useUserContext = () => useContext(UserContext)
+
+
 // Context
 export const SmartAccountContext = React.createContext<smartAccountContextType>(
     {
@@ -59,8 +63,8 @@ export const SmartAccountContext = React.createContext<smartAccountContextType>(
 export const useSmartAccountContext = () => useContext(SmartAccountContext);
 
 // Provider
-export const SmartAccountProvider = ({ children }: any) => {
-    const { provider, address } = useWeb3AuthContext();
+export const SmartAccountProvider : ({ children }: any) =>JSX.Element = ({ children }) => {
+    const { user } = useUserContext()
     const [wallet, setWallet] = useState<SmartAccount | null>(null);
     const [state, setState] = useState<SmartAccountState | null>(null);
     const [selectedAccount, setSelectedAccount] = useState<ISmartAccount | null>(
@@ -73,13 +77,20 @@ export const SmartAccountProvider = ({ children }: any) => {
         totalBalanceInUsd: 0,
         alltokenBalances: [],
     });
-    const [isFetchingBalance, setIsFetchingBalance] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [isFetchingBalance, setIsFetchingBalance] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const getSmartAccount = useCallback(async () => {
-        if (!provider || !address) return "Wallet not connected";
+
+        console.log("user", user)
+        if (!user?.provider || !user?.publicAddress) return console.log("Wallet not connected");
+
+
 
         try {
+            
+            const provider = user.provider
+            const address = user.publicAddress
             setLoading(true);
             const walletProvider = new ethers.providers.Web3Provider(provider);
             console.log("walletProvider", walletProvider);
@@ -104,10 +115,10 @@ export const SmartAccountProvider = ({ children }: any) => {
                     },
                 ],
             });
-            console.log("wallet", wallet);
+            console.log("wallet 🔥🔥🔥🔥🔥🔥🔥", wallet);
 
             // Wallet initialization to fetch wallet info
-            const smartAccount = await wallet.init();
+            const smartAccount:SmartAccount = await wallet.init();
             setWallet(wallet);
             console.info("smartAccount", smartAccount);
 
@@ -148,7 +159,7 @@ export const SmartAccountProvider = ({ children }: any) => {
                 owner: address,
             });
             console.info("getSmartAccountsByOwner", data);
-            const accountData = [];
+            const accountData:ISmartAccount[] = [];
             for (let i = 0; i < data.length; ++i) {
                 accountData.push(data[i]);
             }
@@ -173,10 +184,10 @@ export const SmartAccountProvider = ({ children }: any) => {
             console.error({ getSmartAccount: error });
             return error.message;
         }
-    }, [provider, address]);
+    }, [user?.provider, user?.publicAddress]);
 
-    const getSmartAccountBalance = async () => {
-        if (!provider || !address) return "Wallet not connected";
+    const getSmartAccountBalance:()=>Promise<any> = async () => {
+        if (!user?.provider || !user?.publicAddress) return "Wallet not connected";
         if (!state || !wallet) return "Init Smart Account First";
 
         try {

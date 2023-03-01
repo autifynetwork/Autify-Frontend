@@ -9,7 +9,7 @@ interface ILoadingContext {
     showProgressBar: boolean;
     progress: number;
 }
-type LoadingContextType = {
+export type LoadingContextType = {
     loading: ILoadingContext;
     setLoading: (loading: ILoadingContext) => void;
 };
