@@ -9,8 +9,8 @@ import Button from '@/components/ui/Button';
 export default function AdminLogin() {
     const [email, setEmail] = useState('');
     const [isDisabled, setDisabled] = useState(false);
-    const [, setLoading] = useContext(LoadingContext);
-    const [user, setUser] = useContext(UserContext);
+    const { loading, setLoading } = useContext(LoadingContext);
+    const { user, setUser } = useContext(UserContext);
 
     // Redirect to /dashboard if the user is logged in
     useEffect(() => {
@@ -25,10 +25,10 @@ export default function AdminLogin() {
                 // Trigger Magic link to be sent to user
                 let didToken = await magic.auth.loginWithMagicLink({
                     email,
-                    redirectURI: new URL('/magic-callback', window.location.origin).href, // optional redirect back to your app after magic link is clicked
+                    // redirectURI: new URL('/magic-callback', window.location.origin).href, // optional redirect back to your app after magic link is clicked
                 });
 
-                setLoading({ status: true });
+                setLoading({ ...loading, status: true });
                 // Validate didToken with server
                 const res = await fetch('/api/login', {
                     method: 'POST',
@@ -41,14 +41,14 @@ export default function AdminLogin() {
                 if (res.status === 200) {
                     // Set the UserContext to the now logged in user
                     let userMetadata = await magic.user.getMetadata();
-                    await setUser(userMetadata);
+                    setUser({ ...userMetadata, provider: magic.rpcProvider });
                     Router.push('/dashboard');
-                    setLoading({ status: false });
+                    setLoading({ ...loading, status: false });
                 }
             }
         } catch (error) {
             setDisabled(false); // re-enable login button - user may have requested to edit their email
-            setLoading({ status: false });
+            setLoading({ ...loading, status: false });
             console.log(error);
         }
     }

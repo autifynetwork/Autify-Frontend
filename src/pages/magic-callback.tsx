@@ -7,8 +7,8 @@ import Loading from '@/components/ui/Loading';
 
 const Callback = () => {
     const router = useRouter();
-    const [, setUser] = useContext(UserContext);
-    const [, setLoading] = useContext(LoadingContext);
+    const { setUser } = useContext(UserContext);
+    const { loading, setLoading } = useContext(LoadingContext);
 
     // The redirect contains a `provider` query param if the user is logging in with a social provider
     useEffect(() => {
@@ -35,9 +35,9 @@ const Callback = () => {
         if (res.status === 200 && magic) {
             // Set the UserContext to the now logged in user
             let userMetadata = await magic.user.getMetadata();
-            await setUser(userMetadata);
+            setUser({ ...userMetadata, provider: magic.rpcProvider });
             router.push('/dashboard');
-            setLoading({ status: false });
+            setLoading({ ...loading, status: false });
         }
     };
 

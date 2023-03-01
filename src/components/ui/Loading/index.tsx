@@ -1,12 +1,7 @@
-import { useContext } from 'react';
-import { LoadingContext } from '@/store/LoadingContext';
 import styles from '@/styles/Loading/Loading.module.css';
 
 export default function Loading({ status, section, title, showProgressBar, progress, message, waitMessage }: any) {
-    const [isLoading] = useContext(LoadingContext);
-
     return (
-        isLoading &&
         status && (
             <div className={section ? styles['loading_section_container'] : styles['loading_container']}>
                 <div className={styles['loading_container_box']}>
