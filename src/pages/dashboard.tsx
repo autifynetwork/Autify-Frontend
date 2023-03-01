@@ -6,19 +6,19 @@ import Loading from '@/components/ui/Loading';
 import Button from '@/components/ui/Button';
 
 export default function Dashboard() {
-    const [user, setUser] = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
 
     const logout = () => {
         magic &&
             magic.user.logout().then(() => {
-                setUser({ user: null });
+                setUser(null as any);
                 Router.push('/auth/admin-login');
             });
     };
 
     return (
         <>
-            {user?.loading ? (
+            {!user ? (
                 <Loading status={true} section={true} />
             ) : (
                 user?.issuer && (
