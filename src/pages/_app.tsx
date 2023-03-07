@@ -3,8 +3,9 @@ import Layout from '@/layout/Layout';
 import UserProvider from '@/store/UserContext';
 import LoadingProvider from '@/store/LoadingContext';
 import '@/styles/globals.css';
+import { wrapper } from '@/redux/redux-store';
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
     return (
         <UserProvider>
             <LoadingProvider>
@@ -15,3 +16,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </UserProvider>
     );
 }
+
+export default wrapper.withRedux(App);

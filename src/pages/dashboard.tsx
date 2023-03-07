@@ -1,24 +1,36 @@
-import { useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import Router from 'next/router';
-import { magic } from '@/lib/magic';
 import { UserContext } from '@/store/UserContext';
+import { RootState, useTypedDispatch, useTypedSelector } from '@/redux/redux-store';
+import { logoutUser, clearErrors } from '@/redux/actions/userActions';
 import Loading from '@/components/ui/Loading';
 import Button from '@/components/ui/Button';
 
 export default function Dashboard() {
     const { user, setUser } = useContext(UserContext);
 
+    // Redux state
+    const dispatch = useTypedDispatch();
+    const { success, loading, error } = useTypedSelector((state: RootState) => state.logout);
+
+    useEffect(() => {
+        if (success) {
+            setUser(null as any);
+            // Redirect to admin login form if the user is logged out
+            Router.push('/auth/admin-login');
+        }
+        if (error) {
+            dispatch(clearErrors());
+        }
+    }, [dispatch, success, error]);
+
     const logout = () => {
-        magic &&
-            magic.user.logout().then(() => {
-                setUser(null as any);
-                Router.push('/auth/admin-login');
-            });
+        dispatch(logoutUser());
     };
 
     return (
         <>
-            {!user ? (
+            {!user || loading ? (
                 <Loading status={true} section={true} />
             ) : (
                 user?.issuer && (
@@ -43,7 +55,7 @@ export default function Dashboard() {
                                         <p className="profile-info">{user.issuer}</p>
                                     </div>
 
-                                    <Button variant="secondary" onClick={() => logout()}>
+                                    <Button variant="secondary" isLoading={loading} onClick={() => logout()}>
                                         Logout
                                     </Button>
                                 </div>

@@ -27,7 +27,7 @@ const EmailNotWhitelistedModal = ({ isOpen, setOpen }: any) => {
                             Looks like we are unable to find your email in our database
                         </div>
                         <div className="m-0 p-0 mt-4 w-1/3 flex items-center justify-center">
-                            <Button variant="primary" classes="text-md px-4 py-2">
+                            <Button type="button" variant="primary" classes="text-md px-4 py-2">
                                 Talk to us
                             </Button>
                         </div>
