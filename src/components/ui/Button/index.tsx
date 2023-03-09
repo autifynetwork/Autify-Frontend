@@ -33,7 +33,7 @@ export default function Button({
                                   `text-light-100 `) + `font-primary font-semibold transition duration-300 `
                           : ` `)) +
                 (rounded ? `rounded-full ` : `rounded-xl `) +
-                (classes ? classes : `text-lg px-8 py-2`)
+                (classes ? classes : `text-md px-8 py-3`)
             }>
             {isLoading ? (
                 <span className={variant == 'primary' && outline ? 'loader-dark' : 'loader'}></span>

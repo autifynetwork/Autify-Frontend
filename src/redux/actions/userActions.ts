@@ -18,7 +18,7 @@ import {
 import { magic } from '@/lib/magic';
 
 // Email whitelist check
-export const emailWhitelistCheck = (email: string, formSubmit: boolean) => async (dispatch: any) => {
+export const emailWhitelistCheck = (email: string) => async (dispatch: any) => {
     try {
         dispatch({ type: EMAIL_WHITELIST_CHECK_REQUEST });
 
@@ -30,12 +30,10 @@ export const emailWhitelistCheck = (email: string, formSubmit: boolean) => async
                 type: EMAIL_WHITELIST_CHECK_SUCCESS,
             });
         } else {
-            if (formSubmit) {
-                dispatch({
-                    type: EMAIL_WHITELIST_CHECK_FAIL,
-                    payload: 'Email not whitelisted',
-                });
-            }
+            dispatch({
+                type: EMAIL_WHITELIST_CHECK_FAIL,
+                payload: 'Email not whitelisted',
+            });
         }
     } catch (error) {
         dispatch({
