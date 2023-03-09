@@ -21,8 +21,7 @@ export const UserContext = createContext<UserContextType>(defaultState);
 function UserProvider({ children }: any) {
     const [user, _updateUser] = useState<IUserContext | null>(null);
 
-    const setUser = (user: IUserContext| null) => {
-
+    const setUser = (user: IUserContext | null) => {
         if (user) {
             const newUser: IUserContext = {
                 email: user.email,
@@ -33,10 +32,9 @@ function UserProvider({ children }: any) {
                 publicAddress: user.publicAddress,
             };
             _updateUser(newUser);
-        } else { 
+        } else {
             _updateUser(null);
         }
-       
     };
 
     return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;

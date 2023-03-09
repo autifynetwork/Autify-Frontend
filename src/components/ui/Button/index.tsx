@@ -22,8 +22,8 @@ export default function Button({
                           ? isLoading
                               ? `border-2 border-transparent bg-primary-200 `
                               : `border-2 border-primary-400 hover:bg-primary-400 hover:text-light-100 text-primary-500 `
-                          : (isLoading ? `bg-dark-200 ` : `bg-dark-400 hover:bg-dark-700 `) + `text-light-100 `) +
-                      `font-primary font-semibold transition duration-300 `
+                          : (isLoading ? `bg-dark-200 ` : `bg-primary-800 hover:bg-dark-700 `) + `text-light-100 `) +
+                      `font-primary font-semibold transition duration-300 shadow-lg `
                     : (variant = 'secondary'
                           ? (outline
                                 ? isLoading
@@ -32,7 +32,7 @@ export default function Button({
                                 : (isLoading ? `bg-secondary-300 ` : `bg-secondary-400 hover:bg-secondary-600 `) +
                                   `text-light-100 `) + `font-primary font-semibold transition duration-300 `
                           : ` `)) +
-                (rounded ? `rounded-full ` : `rounded-lg `) +
+                (rounded ? `rounded-full ` : `rounded-xl `) +
                 (classes ? classes : `text-lg px-8 py-2`)
             }>
             {isLoading ? (

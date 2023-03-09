@@ -1,10 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { ethers } from "ethers";
-import SmartAccount from "@biconomy/smart-account";
-import { SmartAccountState, SmartAccountVersion } from "@biconomy/core-types";
-import { supportedChains, activeChainId } from "../utils/chainConfig";
-import { UserContext } from "./UserContext";
-import { showSuccessMessage } from "../utils";
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import SmartAccount from '@biconomy/smart-account';
+import { SmartAccountState, SmartAccountVersion } from '@biconomy/core-types';
+import { supportedChains, activeChainId } from '../utils/chainConfig';
+import { UserContext } from './UserContext';
+import { showSuccessMessage } from '../utils';
 
 export const ChainId = {
     MAINNET: 1, // Ethereum
@@ -31,48 +31,38 @@ type smartAccountContextType = {
     isFetchingBalance: boolean;
     selectedAccount: ISmartAccount | null;
     smartAccountsArray: ISmartAccount[];
-    setSelectedAccount: React.Dispatch<
-        React.SetStateAction<ISmartAccount | null>
-    >;
+    setSelectedAccount: React.Dispatch<React.SetStateAction<ISmartAccount | null>>;
     getSmartAccount: () => Promise<string>;
     getSmartAccountBalance: () => Promise<string>;
 };
 
-
-const useUserContext = () => useContext(UserContext)
-
+const useUserContext = () => useContext(UserContext);
 
 // Context
-export const SmartAccountContext = React.createContext<smartAccountContextType>(
-    {
-        wallet: null,
-        state: null,
-        balance: {
-            totalBalanceInUsd: 0,
-            alltokenBalances: [],
-        },
-        loading: false,
-        isFetchingBalance: false,
-        selectedAccount: null,
-        smartAccountsArray: [],
-        setSelectedAccount: () => { },
-        getSmartAccount: () => Promise.resolve(""),
-        getSmartAccountBalance: () => Promise.resolve(""),
-    }
-);
+export const SmartAccountContext = React.createContext<smartAccountContextType>({
+    wallet: null,
+    state: null,
+    balance: {
+        totalBalanceInUsd: 0,
+        alltokenBalances: [],
+    },
+    loading: false,
+    isFetchingBalance: false,
+    selectedAccount: null,
+    smartAccountsArray: [],
+    setSelectedAccount: () => {},
+    getSmartAccount: () => Promise.resolve(''),
+    getSmartAccountBalance: () => Promise.resolve(''),
+});
 export const useSmartAccountContext = () => useContext(SmartAccountContext);
 
 // Provider
-export const SmartAccountProvider : ({ children }: any) =>JSX.Element = ({ children }) => {
-    const { user } = useUserContext()
+export const SmartAccountProvider: ({ children }: any) => JSX.Element = ({ children }) => {
+    const { user } = useUserContext();
     const [wallet, setWallet] = useState<SmartAccount | null>(null);
     const [state, setState] = useState<SmartAccountState | null>(null);
-    const [selectedAccount, setSelectedAccount] = useState<ISmartAccount | null>(
-        null
-    );
-    const [smartAccountsArray, setSmartAccountsArray] = useState<ISmartAccount[]>(
-        []
-    );
+    const [selectedAccount, setSelectedAccount] = useState<ISmartAccount | null>(null);
+    const [smartAccountsArray, setSmartAccountsArray] = useState<ISmartAccount[]>([]);
     const [balance, setBalance] = useState<Balance>({
         totalBalanceInUsd: 0,
         alltokenBalances: [],
@@ -81,19 +71,15 @@ export const SmartAccountProvider : ({ children }: any) =>JSX.Element = ({ child
     const [loading, setLoading] = useState<boolean>(false);
 
     const getSmartAccount = useCallback(async () => {
-
-        console.log("user", user)
-        if (!user?.provider || !user?.publicAddress) return console.log("Wallet not connected");
-
-
+        console.log('user', user);
+        if (!user?.provider || !user?.publicAddress) return console.log('Wallet not connected');
 
         try {
-            
-            const provider = user.provider
-            const address = user.publicAddress
+            const provider = user.provider;
+            const address = user.publicAddress;
             setLoading(true);
             const walletProvider = new ethers.providers.Web3Provider(provider);
-            console.log("walletProvider", walletProvider);
+            console.log('walletProvider', walletProvider);
             // New instance, all config params are optional
             const wallet = new SmartAccount(walletProvider, {
                 // signType: SignTypeMethod.PERSONAL_SIGN,
@@ -106,7 +92,7 @@ export const SmartAccountProvider : ({ children }: any) =>JSX.Element = ({ child
                 networkConfig: [
                     {
                         chainId: ChainId.POLYGON_MUMBAI,
-                        dappAPIKey: "59fRCMXvk.8a1652f0-b522-4ea7-b296-98628499aee3",
+                        dappAPIKey: '59fRCMXvk.8a1652f0-b522-4ea7-b296-98628499aee3',
                         // if need to override // providerUrl:
                     },
                     {
@@ -115,42 +101,30 @@ export const SmartAccountProvider : ({ children }: any) =>JSX.Element = ({ child
                     },
                 ],
             });
-            console.log("wallet 🔥🔥🔥🔥🔥🔥🔥", wallet);
+            console.log('wallet 🔥🔥🔥🔥🔥🔥🔥', wallet);
 
             // Wallet initialization to fetch wallet info
-            const smartAccount:SmartAccount = await wallet.init();
+            const smartAccount: SmartAccount = await wallet.init();
             setWallet(wallet);
-            console.info("smartAccount", smartAccount);
+            console.info('smartAccount', smartAccount);
 
-            smartAccount.on("txHashGenerated", (response: any) => {
-                console.log(
-                    "txHashGenerated event received in AddLP via emitter",
-                    response
-                );
+            smartAccount.on('txHashGenerated', (response: any) => {
+                console.log('txHashGenerated event received in AddLP via emitter', response);
                 showSuccessMessage(`Transaction sent: ${response.hash}`, response.hash);
             });
 
-            smartAccount.on("txHashChanged", (response: any) => {
-                console.log(
-                    "txHashChanged event received in AddLP via emitter",
-                    response
-                );
-                showSuccessMessage(
-                    `Transaction updated with hash: ${response.hash}`,
-                    response.hash
-                );
+            smartAccount.on('txHashChanged', (response: any) => {
+                console.log('txHashChanged event received in AddLP via emitter', response);
+                showSuccessMessage(`Transaction updated with hash: ${response.hash}`, response.hash);
             });
 
-            smartAccount.on("txMined", (response: any) => {
-                console.log("txMined event received in AddLP via emitter", response);
-                showSuccessMessage(
-                    `Transaction confirmed: ${response.hash}`,
-                    response.hash
-                );
+            smartAccount.on('txMined', (response: any) => {
+                console.log('txMined event received in AddLP via emitter', response);
+                showSuccessMessage(`Transaction confirmed: ${response.hash}`, response.hash);
             });
 
-            smartAccount.on("error", (response: any) => {
-                console.log("error event received in AddLP via emitter", response);
+            smartAccount.on('error', (response: any) => {
+                console.log('error event received in AddLP via emitter', response);
             });
 
             // get all smart account versions available and update in state
@@ -158,27 +132,25 @@ export const SmartAccountProvider : ({ children }: any) =>JSX.Element = ({ child
                 chainId: activeChainId,
                 owner: address,
             });
-            console.info("getSmartAccountsByOwner", data);
-            const accountData:ISmartAccount[] = [];
+            console.info('getSmartAccountsByOwner', data);
+            const accountData: ISmartAccount[] = [];
             for (let i = 0; i < data.length; ++i) {
                 accountData.push(data[i]);
             }
             setSmartAccountsArray(accountData);
             // set the first wallet version as default
             if (accountData.length) {
-                wallet.setSmartAccountVersion(
-                    accountData[0].version as SmartAccountVersion
-                );
+                wallet.setSmartAccountVersion(accountData[0].version as SmartAccountVersion);
                 setSelectedAccount(accountData[0]);
             }
 
             // get address, isDeployed and other data
             const state = await smartAccount.getSmartAccountState();
             setState(state);
-            console.info("getSmartAccountState", state);
+            console.info('getSmartAccountState', state);
 
             setLoading(false);
-            return "";
+            return '';
         } catch (error: any) {
             setLoading(false);
             console.error({ getSmartAccount: error });
@@ -186,9 +158,9 @@ export const SmartAccountProvider : ({ children }: any) =>JSX.Element = ({ child
         }
     }, [user?.provider, user?.publicAddress]);
 
-    const getSmartAccountBalance:()=>Promise<any> = async () => {
-        if (!user?.provider || !user?.publicAddress) return "Wallet not connected";
-        if (!state || !wallet) return "Init Smart Account First";
+    const getSmartAccountBalance: () => Promise<any> = async () => {
+        if (!user?.provider || !user?.publicAddress) return 'Wallet not connected';
+        if (!state || !wallet) return 'Init Smart Account First';
 
         try {
             setIsFetchingBalance(true);
@@ -202,16 +174,16 @@ export const SmartAccountProvider : ({ children }: any) =>JSX.Element = ({ child
                 tokenAddresses: [],
             };
             const balFromSdk = await wallet.getAlltokenBalances(balanceParams);
-            console.info("getAlltokenBalances", balFromSdk);
+            console.info('getAlltokenBalances', balFromSdk);
 
             const usdBalFromSdk = await wallet.getTotalBalanceInUsd(balanceParams);
-            console.info("getTotalBalanceInUsd", usdBalFromSdk);
+            console.info('getTotalBalanceInUsd', usdBalFromSdk);
             setBalance({
                 totalBalanceInUsd: usdBalFromSdk.data.totalBalance,
                 alltokenBalances: balFromSdk.data,
             });
             setIsFetchingBalance(false);
-            return "";
+            return '';
         } catch (error: any) {
             setIsFetchingBalance(false);
             console.error({ getSmartAccountBalance: error });
@@ -221,10 +193,8 @@ export const SmartAccountProvider : ({ children }: any) =>JSX.Element = ({ child
 
     useEffect(() => {
         if (wallet && selectedAccount) {
-            console.log("setSmartAccountVersion", selectedAccount);
-            wallet.setSmartAccountVersion(
-                selectedAccount.version as SmartAccountVersion
-            );
+            console.log('setSmartAccountVersion', selectedAccount);
+            wallet.setSmartAccountVersion(selectedAccount.version as SmartAccountVersion);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedAccount]);
@@ -235,21 +205,19 @@ export const SmartAccountProvider : ({ children }: any) =>JSX.Element = ({ child
 
     return (
         <SmartAccountContext.Provider
-      value= {{
-        wallet,
-            state,
-            balance,
-            loading,
-            isFetchingBalance,
-            selectedAccount,
-            smartAccountsArray,
-            setSelectedAccount,
-            getSmartAccount,
-            getSmartAccountBalance,
-      }
-}
-    >
-    { children }
-    </SmartAccountContext.Provider>
-  );
+            value={{
+                wallet,
+                state,
+                balance,
+                loading,
+                isFetchingBalance,
+                selectedAccount,
+                smartAccountsArray,
+                setSelectedAccount,
+                getSmartAccount,
+                getSmartAccountBalance,
+            }}>
+            {children}
+        </SmartAccountContext.Provider>
+    );
 };

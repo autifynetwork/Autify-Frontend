@@ -1,30 +1,47 @@
-import { useContext } from 'react';
+import { useEffect, useContext } from 'react';
+import Head from 'next/head';
 import Router from 'next/router';
-import { magic } from '@/lib/magic';
-import { UserContext,UserContextType } from '@/store/UserContext';
+import { UserContext, UserContextType } from '@/store/UserContext';
+import { RootState, useTypedDispatch, useTypedSelector } from '@/redux/redux-store';
+import { logoutUser, clearErrors } from '@/redux/actions/userActions';
 import Loading from '@/components/ui/Loading';
 import Button from '@/components/ui/Button';
 import { useSmartAccountContext } from '@/store/SmartAccountContext';
 
-export default function Dashboard():JSX.Element {
+export default function Dashboard(): JSX.Element {
     const { user, setUser } = useContext<UserContextType>(UserContext);
-    const { selectedAccount,loading } = useSmartAccountContext()
-    
+    const { selectedAccount, loading } = useSmartAccountContext();
 
-    const logout:(()=>void) = () =>{
-        magic &&
-            magic.user.logout().then(() => {
-                setUser(null as any);
-                Router.push('/auth/admin-login');
-            });
+    // Redux state
+    const dispatch = useTypedDispatch();
+    const { success, loading: logoutLoading, error } = useTypedSelector((state: RootState) => state.logout);
+
+    useEffect(() => {
+        if (success) {
+            setUser(null as any);
+            // Redirect to admin login form if the user is logged out
+            Router.push('/auth/admin-login');
+            Router.reload();
+        }
+        if (error) {
+            dispatch(clearErrors());
+        }
+    }, [dispatch, success, error]);
+
+    const logout = () => {
+        dispatch(logoutUser());
     };
 
     return (
         <>
-            {!user || loading ?  (
+            <Head>
+                <title>Admin Dashboard | Autify Network</title>
+                <meta name="description" content="Autify Network Admin Dashboard" />
+            </Head>
+
+            {!user || loading ? (
                 <Loading status={true} section={true} />
             ) : (
-                    
                 user?.issuer && (
                     <div className="w-full flex flex-col items-center justify-center bg-light-100">
                         <div className="w-full max-w-[1920px] h-screen flex flex-col">
@@ -40,20 +57,21 @@ export default function Dashboard():JSX.Element {
                                     <div className="flex flex-col items-center justify-center">
                                         <p className="label">Wallet Address</p>
                                         <p className="profile-info">{user.publicAddress}</p>
+                                    </div>
+
+                                    {selectedAccount?.smartAccountAddress && (
+                                        <div className="flex flex-col items-center justify-center">
+                                            <p className="label">Smart Account Address</p>
+                                            <p className="profile-info">{selectedAccount.smartAccountAddress}</p>
                                         </div>
-                                        
-                                        {selectedAccount?.smartAccountAddress &&
-                                            <div className="flex flex-col items-center justify-center">
-                                                <p className="label">Smart Account Address</p>
-                                                <p className="profile-info">{selectedAccount.smartAccountAddress}</p>
-                                            </div>}
+                                    )}
 
                                     <div className="flex flex-col items-center justify-center">
                                         <p className="label">User Id</p>
                                         <p className="profile-info">{user.issuer}</p>
-                                        </div>
-                                        
-                                    <Button variant="secondary" onClick={() => logout()}>
+                                    </div>
+
+                                    <Button variant="secondary" isLoading={logoutLoading} onClick={() => logout()}>
                                         Logout
                                     </Button>
                                 </div>
