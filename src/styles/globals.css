@@ -121,8 +121,8 @@ body {
 }
 
 .loader-dark {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     display: inline-block;
     border-top: 2px solid #444;

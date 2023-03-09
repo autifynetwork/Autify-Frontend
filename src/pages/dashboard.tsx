@@ -1,23 +1,26 @@
 import { useEffect, useContext } from 'react';
+import Head from 'next/head';
 import Router from 'next/router';
-import { UserContext } from '@/store/UserContext';
+import { UserContext, UserContextType } from '@/store/UserContext';
 import { RootState, useTypedDispatch, useTypedSelector } from '@/redux/redux-store';
 import { logoutUser, clearErrors } from '@/redux/actions/userActions';
 import Loading from '@/components/ui/Loading';
 import Button from '@/components/ui/Button';
+import { useSmartAccountContext } from '@/store/SmartAccountContext';
 
-export default function Dashboard() {
-    const { user, setUser } = useContext(UserContext);
+export default function Dashboard(): JSX.Element {
+    const { user, setUser } = useContext<UserContextType>(UserContext);
+    const { selectedAccount, loading } = useSmartAccountContext();
 
     // Redux state
     const dispatch = useTypedDispatch();
-    const { success, loading, error } = useTypedSelector((state: RootState) => state.logout);
+    const { success, loading: logoutLoading, error } = useTypedSelector((state: RootState) => state.logout);
 
     useEffect(() => {
         if (success) {
             setUser(null as any);
             // Redirect to admin login form if the user is logged out
-            Router.replace('/auth/admin-login');
+            Router.push('/auth/admin-login');
             Router.reload();
         }
         if (error) {
@@ -31,6 +34,11 @@ export default function Dashboard() {
 
     return (
         <>
+            <Head>
+                <title>Admin Dashboard | Autify Network</title>
+                <meta name="description" content="Autify Network Admin Dashboard" />
+            </Head>
+
             {!user || loading ? (
                 <Loading status={true} section={true} />
             ) : (
@@ -51,12 +59,19 @@ export default function Dashboard() {
                                         <p className="profile-info">{user.publicAddress}</p>
                                     </div>
 
+                                    {selectedAccount?.smartAccountAddress && (
+                                        <div className="flex flex-col items-center justify-center">
+                                            <p className="label">Smart Account Address</p>
+                                            <p className="profile-info">{selectedAccount.smartAccountAddress}</p>
+                                        </div>
+                                    )}
+
                                     <div className="flex flex-col items-center justify-center">
                                         <p className="label">User Id</p>
                                         <p className="profile-info">{user.issuer}</p>
                                     </div>
 
-                                    <Button variant="secondary" isLoading={loading} onClick={() => logout()}>
+                                    <Button variant="secondary" isLoading={logoutLoading} onClick={() => logout()}>
                                         Logout
                                     </Button>
                                 </div>

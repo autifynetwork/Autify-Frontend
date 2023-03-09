@@ -1,7 +1,7 @@
 import Router from 'next/router';
 import Button from '@/components/ui/Button';
 
-export default function Home() {
+export default function Home():JSX.Element {
     return (
         <div className="w-full flex flex-col items-center justify-center bg-light-100">
             <div className="w-full max-w-[1920px] h-screen flex flex-col">

@@ -3,8 +3,8 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Router from 'next/router';
 import { magic } from '@/lib/magic';
-import { UserContext } from '@/store/UserContext';
-import { LoadingContext } from '@/store/LoadingContext';
+import { UserContext, UserContextType } from '@/store/UserContext';
+import { LoadingContext, LoadingContextType } from '@/store/LoadingContext';
 import { RootState, useTypedDispatch, useTypedSelector } from '@/redux/redux-store';
 import { emailWhitelistCheck, loginUser, resetState, clearErrors } from '@/redux/actions/userActions';
 import Button from '@/components/ui/Button';
@@ -17,8 +17,8 @@ export default function AdminLogin() {
     const [isEmailNotWhitelistedModalOpen, setEmailNotWhitelistedModalOpen] = useState(false);
 
     // Contexts
-    const { loading, setLoading } = useContext(LoadingContext);
-    const { setUser } = useContext(UserContext);
+    const { loading, setLoading } = useContext<LoadingContextType>(LoadingContext);
+    const { setUser } = useContext<UserContextType>(UserContext);
 
     // Redux states
     const dispatch = useTypedDispatch();
