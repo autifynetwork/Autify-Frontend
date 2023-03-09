@@ -104,8 +104,11 @@ export default function AdminLogin() {
                 <div className="w-full h-screen flex flex-col">
                     <div className="w-full h-full grid grid-cols-12">
                         <div className="w-full col-span-5 flex flex-col items-center justify-center">
-                            <div className="w-fit flex flex-col items-center justify-center -ml-10">
-                                <Image src="/assets/logo.png" alt="logo" width={350} height={100} />
+                            <div className="w-7/12 max-w-[500px] flex flex-col items-start justify-start -ml-10">
+                                <div className="w-full h-[100px] 2xl:w-full 2xl:h-[135px] relative">
+                                    <Image src="/assets/logo.png" alt="logo" fill objectFit="contain" />
+                                </div>
+
                                 <div className="w-full flex items-start">
                                     <p className="w-1/2 border-b-2 border-dark-400 my-8"></p>
                                 </div>
