@@ -178,6 +178,13 @@ export default function AdminLogin() {
 
                         <div className="col-span-7 relative">
                             <Image src="/assets/login/bg.svg" alt="bg" fill className="object-cover" />
+                            <div className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/3 w-1/2 bg-white/40 backdrop-blur rounded-2xl px-8 pt-10 pb-16 border border-[#C4C4C4]">
+                                <h2 className="text-4xl font-bold text-dark-400">Lorem Ipsum</h2>
+                                <p className="text-lg mt-4 text-dark-400">
+                                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod t
+                                    magna aliquyam erat, sed diam voluptua
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
