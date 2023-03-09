@@ -2,23 +2,26 @@ import { useState, useEffect, useContext } from 'react';
 import Image from 'next/image';
 import Router from 'next/router';
 import { magic } from '@/lib/magic';
+import Button from '@/components/ui/Button';
 import { UserContext, UserContextType } from '@/store/UserContext';
 import { LoadingContext, LoadingContextType } from '@/store/LoadingContext';
-import Button from '@/components/ui/Button';
+import { useLazyQuery } from '@apollo/client';
+import { CHECK_EMAIL } from '@/lib/queries/api';
+import { toast } from 'react-toastify';
 
-export default function AdminLogin():JSX.Element {
+export default function AdminLogin(): JSX.Element {
     const [email, setEmail] = useState<string>('');
     const [isDisabled, setDisabled] = useState<boolean>(false);
     const { loading, setLoading } = useContext<LoadingContextType>(LoadingContext);
     const { user, setUser } = useContext<UserContextType>(UserContext);
-    
+    const [checkMail] = useLazyQuery(CHECK_EMAIL);
 
     // Redirect to /dashboard if the user is logged in
     useEffect(() => {
         user?.issuer && Router.push('/dashboard');
     }, [user]);
 
-    async function handleLoginWithEmail():Promise<void> {
+    async function handleMagicAuth(): Promise<void> {
         try {
             if (magic) {
                 setDisabled(true); // disable login button to prevent multiple emails from being triggered
@@ -42,7 +45,7 @@ export default function AdminLogin():JSX.Element {
                 if (res.status === 200) {
                     // Set the UserContext to the now logged in user
                     let userMetadata = await magic.user.getMetadata();
-                    setUser({ ...userMetadata, provider: magic.rpcProvider })
+                    setUser({ ...userMetadata, provider: magic.rpcProvider });
 
                     Router.push('/dashboard');
                     setLoading({ ...loading, status: false });
@@ -54,6 +57,28 @@ export default function AdminLogin():JSX.Element {
             console.log(error);
         }
     }
+
+    // Check if the email is whitelisted by the Admin
+    const handleLoginWithEmail = async () => {
+        try {
+            await checkMail({ variables: { email } })
+                .then((res) => {
+                    console.log('res here', res.data);
+                    return res.data;
+                })
+                .then((data) => {
+                    console.log('data here', data.checkEmail);
+                    if (data.checkEmail === 'true') {
+                        //If true, use Magic to send auth email
+                        toast('Email found!');
+                        handleMagicAuth();
+                    } else alert('Email not found!'); // Else alert the user and show the popup to talk to sales
+                    // TODO: Show the popup to talk to sales
+                });
+        } catch (e) {
+            console.log('error', e);
+        }
+    };
 
     return (
         <div className="w-full flex flex-col items-center justify-center bg-light-100">
@@ -82,7 +107,11 @@ export default function AdminLogin():JSX.Element {
                             />
 
                             <div className="mt-6">
-                                <Button variant="primary" isLoading={isDisabled} classes="text-md px-8 py-3">
+                                <Button
+                                    variant="primary"
+                                    // onClick={handleLoginWithEmail}
+                                    isLoading={isDisabled}
+                                    classes="text-md px-8 py-3">
                                     Sign In
                                 </Button>
                             </div>
