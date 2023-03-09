@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import Head from 'next/head';
+import { title_admin_login, meta_description } from '@/config/constants';
 import Image from 'next/image';
 import Router from 'next/router';
 import { magic } from '@/lib/magic';
@@ -34,16 +35,26 @@ export default function AdminLogin() {
             dispatch(resetState());
         }
         if (error) {
+            // TODO: Handle Error
             dispatch(clearErrors());
         }
     }, [dispatch, success, error]);
 
     useEffect(() => {
-        // Check if email is whitelisted on every email input change
         if (email) {
-            dispatch(emailWhitelistCheck(email, false));
+            // Making a delay in order for the user to see the success/error state of the email input
+            sleep(600).then(async () => {
+                if (emailWhitelistCheckSuccess) {
+                    await handleLoginWithMagicLink();
+                }
+                if (emailWhitelistCheckError) {
+                    setEmailNotWhitelistedModalOpen(true);
+                    // TODO: Handle Error
+                }
+                setButtonDisabled(false);
+            });
         }
-    }, [email, dispatch]);
+    }, [dispatch, emailWhitelistCheckSuccess, emailWhitelistCheckError]);
 
     async function handleLoginWithMagicLink() {
         try {
@@ -85,8 +96,8 @@ export default function AdminLogin() {
     return (
         <>
             <Head>
-                <title>Admin Login | Autify Network</title>
-                <meta name="description" content="Autify Network Admin Login" />
+                <title>{title_admin_login}</title>
+                <meta name="description" content={meta_description} />
             </Head>
 
             <div className="w-full flex flex-col items-center justify-center bg-light-100">
@@ -105,14 +116,9 @@ export default function AdminLogin() {
                                 <form
                                     onSubmit={(e) => {
                                         e.preventDefault();
-                                        if (emailWhitelistCheckSuccess) {
-                                            handleLoginWithMagicLink();
-                                        } else {
-                                            dispatch(emailWhitelistCheck(email, true));
-                                            sleep(600).then(() => {
-                                                setEmailNotWhitelistedModalOpen(true);
-                                            });
-                                        }
+                                        setButtonDisabled(true);
+                                        // Check if email is whitelisted
+                                        dispatch(emailWhitelistCheck(email));
                                     }}
                                     className="w-full flex flex-col mt-10">
                                     <label htmlFor="email" className="text-lg text-dark-500 font-semibold">
@@ -133,6 +139,7 @@ export default function AdminLogin() {
                                             value={email}
                                             onChange={(e) => {
                                                 setEmail(e.target.value);
+                                                dispatch(resetState());
                                             }}
                                             placeholder="yourname@email.com"
                                             required
@@ -156,10 +163,7 @@ export default function AdminLogin() {
                                     </div>
 
                                     <div className="mt-10">
-                                        <Button
-                                            variant="primary"
-                                            isLoading={isButtonDisabled}
-                                            classes="text-md px-8 py-3">
+                                        <Button variant="primary" isLoading={isButtonDisabled}>
                                             Sign In
                                         </Button>
                                     </div>

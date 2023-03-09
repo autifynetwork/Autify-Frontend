@@ -38,6 +38,13 @@ export const emailWhitelistCheckReducer = (state = { user: null }, action: { typ
                 ...state,
                 error: null,
             };
+        case RESET_STATE:
+            return {
+                ...state,
+                loading: false,
+                success: false,
+                error: null,
+            };
         default:
             return state;
     }
@@ -74,7 +81,7 @@ export const authReducer = (
             return {
                 ...state,
                 loading: false,
-                success: null,
+                success: false,
                 error: null,
             };
         default:
