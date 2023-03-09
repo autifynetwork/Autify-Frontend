@@ -10,10 +10,14 @@ import { RootState, useTypedDispatch, useTypedSelector } from '@/redux/redux-sto
 import { emailWhitelistCheck, loginUser, resetState, clearErrors } from '@/redux/actions/userActions';
 import Button from '@/components/ui/Button';
 import { sleep } from '@/utils/sleep';
+import { useLazyQuery } from '@apollo/client';
 import EmailNotWhitelistedModal from '@/components/Auth/Admin/EmailNotWhitelistedModal';
+import { CHECK_EMAIL } from '@/lib/queries/api';
 
 export default function AdminLogin() {
     const [email, setEmail] = useState('');
+    const [success, setSuccess] = useState(false);
+    const [checkEmail] = useLazyQuery(CHECK_EMAIL);
     const [isButtonDisabled, setButtonDisabled] = useState(false);
     const [isEmailNotWhitelistedModalOpen, setEmailNotWhitelistedModalOpen] = useState(false);
 
@@ -23,38 +27,65 @@ export default function AdminLogin() {
 
     // Redux states
     const dispatch = useTypedDispatch();
-    const { success, error } = useTypedSelector((state: RootState) => state.auth);
+    // const { success, error } = useTypedSelector((state: RootState) => state.auth);
     const { success: emailWhitelistCheckSuccess, error: emailWhitelistCheckError } = useTypedSelector(
         (state: RootState) => state.emailWhitelistCheck
     );
 
-    useEffect(() => {
-        // Redirect to /dashboard if the user is logged in
-        if (success) {
-            Router.push('/dashboard');
-            dispatch(resetState());
-        }
-        if (error) {
-            // TODO: Handle Error
-            dispatch(clearErrors());
-        }
-    }, [dispatch, success, error]);
+    // useEffect(() => {
+    //     // Redirect to /dashboard if the user is logged in
+    //     if (success) {
+    //         Router.push('/dashboard');
+    //         dispatch(resetState());
+    //     }
+    //     if (!success) {
+    //         // TODO: Handle Error
+    //         dispatch(clearErrors());
+    //     }
+    // }, [dispatch, success]);
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     if (email) {
+    //         // Making a delay in order for the user to see the success/error state of the email input
+    //         sleep(600).then(async () => {
+    //             if (emailWhitelistCheckSuccess) {
+    //                 await handleLoginWithMagicLink();
+    //             }
+    //             if (emailWhitelistCheckError) {
+    //                 setEmailNotWhitelistedModalOpen(true);
+    //                 // TODO: Handle Error
+    //             }
+    //             setButtonDisabled(false);
+    //         });
+    //     }
+    // }, [dispatch, emailWhitelistCheckSuccess, emailWhitelistCheckError]);
+
+    const checkWhitelist = async () => {
         if (email) {
-            // Making a delay in order for the user to see the success/error state of the email input
-            sleep(600).then(async () => {
-                if (emailWhitelistCheckSuccess) {
-                    await handleLoginWithMagicLink();
-                }
-                if (emailWhitelistCheckError) {
-                    setEmailNotWhitelistedModalOpen(true);
-                    // TODO: Handle Error
-                }
-                setButtonDisabled(false);
-            });
+            try {
+                await checkEmail({ variables: { email } })
+                    .then((res) => {
+                        console.log('res here', res.data);
+                        return res.data;
+                    })
+                    .then((data) => {
+                        console.log('data here', data.checkEmail);
+                        if (data.checkEmail === 'true') {
+                            // setSuccess(true);
+                            //If true, use Magic to send auth email
+
+                            handleLoginWithMagicLink();
+                        } else setEmailNotWhitelistedModalOpen(true);
+
+                        setButtonDisabled(false);
+                        // Else alert the user and show the popup to talk to sales
+                        // TODO: Show the popup to talk to sales
+                    });
+            } catch (e) {
+                console.log('error', e);
+            }
         }
-    }, [dispatch, emailWhitelistCheckSuccess, emailWhitelistCheckError]);
+    };
 
     async function handleLoginWithMagicLink() {
         try {
@@ -81,6 +112,10 @@ export default function AdminLogin() {
                     // Set the UserContext to the now logged in user
                     const userData = await magic.user.getMetadata();
                     setUser({ ...userData, provider: magic.rpcProvider });
+
+                    Router.push('/dashboard');
+                    dispatch(resetState());
+
                     // Dispatch loginUser action to update redux store
                     dispatch(loginUser(userData));
                     setLoading({ ...loading, status: false });
@@ -89,6 +124,7 @@ export default function AdminLogin() {
         } catch (error) {
             setButtonDisabled(false); // re-enable login button - user may have requested to edit their email
             setLoading({ ...loading, status: false });
+            dispatch(clearErrors());
             console.error(error);
         }
     }
@@ -118,7 +154,8 @@ export default function AdminLogin() {
                                         e.preventDefault();
                                         setButtonDisabled(true);
                                         // Check if email is whitelisted
-                                        dispatch(emailWhitelistCheck(email));
+                                        checkWhitelist();
+                                        // dispatch(emailWhitelistCheck(email));
                                     }}
                                     className="w-full flex flex-col mt-10">
                                     <label htmlFor="email" className="text-lg text-dark-500 font-semibold">
