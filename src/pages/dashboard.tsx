@@ -17,7 +17,8 @@ export default function Dashboard() {
         if (success) {
             setUser(null as any);
             // Redirect to admin login form if the user is logged out
-            Router.push('/auth/admin-login');
+            Router.replace('/auth/admin-login');
+            Router.reload();
         }
         if (error) {
             dispatch(clearErrors());
