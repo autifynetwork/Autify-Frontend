@@ -1,5 +1,6 @@
 import { useEffect, useContext } from 'react';
 import Head from 'next/head';
+import { title_admin_dashboard, meta_description } from '@/config/constants';
 import Router from 'next/router';
 import { UserContext, UserContextType } from '@/store/UserContext';
 import { RootState, useTypedDispatch, useTypedSelector } from '@/redux/redux-store';
@@ -35,8 +36,8 @@ export default function Dashboard(): JSX.Element {
     return (
         <>
             <Head>
-                <title>Admin Dashboard | Autify Network</title>
-                <meta name="description" content="Autify Network Admin Dashboard" />
+                <title>{title_admin_dashboard}</title>
+                <meta name="description" content={meta_description} />
             </Head>
 
             {!user || loading ? (

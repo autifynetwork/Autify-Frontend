@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import Head from 'next/head';
+import { title_admin_login, meta_description } from '@/config/constants';
 import Image from 'next/image';
 import Router from 'next/router';
 import { magic } from '@/lib/magic';
@@ -85,8 +86,8 @@ export default function AdminLogin() {
     return (
         <>
             <Head>
-                <title>Admin Login | Autify Network</title>
-                <meta name="description" content="Autify Network Admin Login" />
+                <title>{title_admin_login}</title>
+                <meta name="description" content={meta_description} />
             </Head>
 
             <div className="w-full flex flex-col items-center justify-center bg-light-100">
