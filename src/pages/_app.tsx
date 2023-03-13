@@ -6,11 +6,11 @@ import { SmartAccountProvider } from '@/store/SmartAccountContext';
 import '@/styles/globals.css';
 import { wrapper } from '@/redux/redux-store';
 import { ApolloProvider } from '@apollo/client';
-import client from '@/lib/apollo-client';
+import apolloClient from '@/lib/apollo-client';
 
 function App({ Component, pageProps }: AppProps) {
     return (
-        <ApolloProvider client={client}>
+        <ApolloProvider client={apolloClient}>
             <UserProvider>
                 <LoadingProvider>
                     <SmartAccountProvider>
