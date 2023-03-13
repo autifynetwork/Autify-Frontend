@@ -8,8 +8,8 @@ import { UserContext, UserContextType } from '@/store/UserContext';
 import { LoadingContext, LoadingContextType } from '@/store/LoadingContext';
 import { RootState, useTypedDispatch, useTypedSelector } from '@/redux/redux-store';
 import { emailWhitelistCheck, loginUser, resetState, clearErrors } from '@/redux/actions/userActions';
-import Button from '@/components/ui/Button';
 import { sleep } from '@/utils/sleep';
+import Button from '@/components/ui/Button';
 import EmailNotWhitelistedModal from '@/components/Auth/Admin/EmailNotWhitelistedModal';
 
 export default function AdminLogin() {
@@ -36,14 +36,16 @@ export default function AdminLogin() {
         }
         if (error) {
             // TODO: Handle Error
+            console.log('Error:', error);
             dispatch(clearErrors());
         }
     }, [dispatch, success, error]);
 
     useEffect(() => {
+        // This useEffect is triggered when the emailWhitelistCheckSuccess or emailWhitelistCheckError state changes
         if (email) {
             // Making a delay in order for the user to see the success/error state of the email input
-            sleep(600).then(async () => {
+            sleep(200).then(async () => {
                 if (emailWhitelistCheckSuccess) {
                     await handleLoginWithMagicLink();
                 }
@@ -81,6 +83,7 @@ export default function AdminLogin() {
                     // Set the UserContext to the now logged in user
                     const userData = await magic.user.getMetadata();
                     setUser({ ...userData, provider: magic.rpcProvider });
+
                     // Dispatch loginUser action to update redux store
                     dispatch(loginUser(userData));
                     setLoading({ ...loading, status: false });
@@ -89,6 +92,7 @@ export default function AdminLogin() {
         } catch (error) {
             setButtonDisabled(false); // re-enable login button - user may have requested to edit their email
             setLoading({ ...loading, status: false });
+            dispatch(clearErrors());
             console.error(error);
         }
     }
