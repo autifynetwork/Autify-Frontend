@@ -8,8 +8,8 @@ import { UserContext, UserContextType } from '@/store/UserContext';
 import { LoadingContext, LoadingContextType } from '@/store/LoadingContext';
 import { RootState, useTypedDispatch, useTypedSelector } from '@/redux/redux-store';
 import { emailWhitelistCheck, loginUser, resetState, clearErrors } from '@/redux/actions/userActions';
-import Button from '@/components/ui/Button';
 import { sleep } from '@/utils/sleep';
+import Button from '@/components/ui/Button';
 import EmailNotWhitelistedModal from '@/components/Auth/Admin/EmailNotWhitelistedModal';
 
 export default function AdminLogin() {
@@ -36,14 +36,16 @@ export default function AdminLogin() {
         }
         if (error) {
             // TODO: Handle Error
+            console.log('Error:', error);
             dispatch(clearErrors());
         }
     }, [dispatch, success, error]);
 
     useEffect(() => {
+        // This useEffect is triggered when the emailWhitelistCheckSuccess or emailWhitelistCheckError state changes
         if (email) {
             // Making a delay in order for the user to see the success/error state of the email input
-            sleep(600).then(async () => {
+            sleep(200).then(async () => {
                 if (emailWhitelistCheckSuccess) {
                     await handleLoginWithMagicLink();
                 }
@@ -81,6 +83,7 @@ export default function AdminLogin() {
                     // Set the UserContext to the now logged in user
                     const userData = await magic.user.getMetadata();
                     setUser({ ...userData, provider: magic.rpcProvider });
+
                     // Dispatch loginUser action to update redux store
                     dispatch(loginUser(userData));
                     setLoading({ ...loading, status: false });
@@ -89,6 +92,7 @@ export default function AdminLogin() {
         } catch (error) {
             setButtonDisabled(false); // re-enable login button - user may have requested to edit their email
             setLoading({ ...loading, status: false });
+            dispatch(clearErrors());
             console.error(error);
         }
     }
@@ -178,6 +182,13 @@ export default function AdminLogin() {
 
                         <div className="col-span-7 relative">
                             <Image src="/assets/login/bg.svg" alt="bg" fill className="object-cover" />
+                            <div className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/3 w-1/2 bg-white/40 backdrop-blur rounded-2xl px-8 pt-10 pb-16 border border-[#C4C4C4]">
+                                <h2 className="text-4xl font-bold text-dark-400">Lorem Ipsum</h2>
+                                <p className="text-lg mt-4 text-dark-400">
+                                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod t
+                                    magna aliquyam erat, sed diam voluptua
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

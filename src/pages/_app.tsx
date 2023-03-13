@@ -5,18 +5,22 @@ import LoadingProvider from '@/store/LoadingContext';
 import { SmartAccountProvider } from '@/store/SmartAccountContext';
 import '@/styles/globals.css';
 import { wrapper } from '@/redux/redux-store';
+import { ApolloProvider } from '@apollo/client';
+import apolloClient from '@/lib/apollo-client';
 
 function App({ Component, pageProps }: AppProps) {
     return (
-        <UserProvider>
-            <LoadingProvider>
-            <SmartAccountProvider>
-                <Layout>
-                    <Component {...pageProps} />
-                </Layout>
-            </SmartAccountProvider>
-            </LoadingProvider>
+        <ApolloProvider client={apolloClient}>
+            <UserProvider>
+                <LoadingProvider>
+                    <SmartAccountProvider>
+                        <Layout>
+                            <Component {...pageProps} />
+                        </Layout>
+                    </SmartAccountProvider>
+                </LoadingProvider>
             </UserProvider>
+        </ApolloProvider>
     );
 }
 
