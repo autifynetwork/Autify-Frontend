@@ -16,6 +16,8 @@ import {
     RESET_STATE,
 } from '../constants/userConstants';
 import { magic } from '@/lib/magic';
+import apolloClient from '@/lib/apollo-client';
+import { CHECK_EMAIL } from '@/lib/queries/api';
 
 // Email whitelist check
 export const emailWhitelistCheck = (email: string) => async (dispatch: any) => {
@@ -23,9 +25,15 @@ export const emailWhitelistCheck = (email: string) => async (dispatch: any) => {
         dispatch({ type: EMAIL_WHITELIST_CHECK_REQUEST });
 
         // TODO: Make API call to validate email whitelist status
-        const whitelisted = email.endsWith('autify.network');
+        // const whitelisted = email.endsWith('autify.network');
+        const result = await apolloClient.query({
+            query: CHECK_EMAIL,
+            variables: {
+                email,
+            },
+        });
 
-        if (whitelisted) {
+        if (result.data.checkEmail === 'true') {
             dispatch({
                 type: EMAIL_WHITELIST_CHECK_SUCCESS,
             });
