@@ -26,17 +26,13 @@ export const emailWhitelistCheck = (email: string) => async (dispatch: any) => {
 
         // TODO: Make API call to validate email whitelist status
         // const whitelisted = email.endsWith('autify.network');
-        // const result = await apolloClient.query({
-        //     query: CHECK_EMAIL,
-        //     variables: {
-        //         email,
-        //     },
-        // });
 
-        dispatch({
-            type: EMAIL_WHITELIST_CHECK_SUCCESS,
+        const result = await apolloClient.query({
+            query: CHECK_EMAIL,
+            variables: {
+                email,
+            },
         });
-        return;
 
         if (result.data.checkEmail === 'true') {
             dispatch({

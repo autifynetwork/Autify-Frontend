@@ -16,7 +16,7 @@ export default async function user(req: any, res: NextApiResponse) {
 
         let newToken = jwt.sign(
             {
-                ...user,
+                user,
                 exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * parseInt(process.env.SESSION_LENGTH_IN_DAYS || '7'),
             },
             process.env.JWT_SECRET || ''
