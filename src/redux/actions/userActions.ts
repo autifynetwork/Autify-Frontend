@@ -26,12 +26,17 @@ export const emailWhitelistCheck = (email: string) => async (dispatch: any) => {
 
         // TODO: Make API call to validate email whitelist status
         // const whitelisted = email.endsWith('autify.network');
-        const result = await apolloClient.query({
-            query: CHECK_EMAIL,
-            variables: {
-                email,
-            },
+        // const result = await apolloClient.query({
+        //     query: CHECK_EMAIL,
+        //     variables: {
+        //         email,
+        //     },
+        // });
+
+        dispatch({
+            type: EMAIL_WHITELIST_CHECK_SUCCESS,
         });
+        return;
 
         if (result.data.checkEmail === 'true') {
             dispatch({
@@ -84,6 +89,12 @@ export const logoutUser = () => async (dispatch: any) => {
         dispatch({ type: LOGOUT_USER_REQUEST });
 
         // TODO: Make API call to logout user
+        await fetch('/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
         if (magic) {
             await magic.user.logout();
         }

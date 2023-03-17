@@ -39,7 +39,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".env.*.local"
   ],
   "exclude": [
     "node_modules"
