@@ -29,9 +29,9 @@ export default function AdminLogin() {
     );
 
     useEffect(() => {
-        // Redirect to /dashboard if the user is logged in
+        // Redirect to /profile if the user is logged in
         if (success) {
-            Router.push('/dashboard');
+            Router.push('/profile');
             dispatch(resetState());
         }
         if (error) {

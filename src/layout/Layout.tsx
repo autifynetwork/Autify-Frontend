@@ -20,7 +20,8 @@ const Layout = ({ children }: any) => {
                             setUser({ ...userData, provider: magic && magic.rpcProvider });
                         });
                 } else {
-                    Router.push('/auth/admin-login');
+                    // TODO: Uncomment
+                    // Router.push('/auth/admin-login');
                 }
             });
     }, []);
