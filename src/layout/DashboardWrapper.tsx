@@ -1,5 +1,6 @@
 import Sidebar from '@/components/Dashboard/Sidebar/Sidebar';
 import RightSidebar from '@/components/Dashboard/Sidebar/RightSidebar';
+import Clock from '@/components/Dashboard/Clock';
 
 export default function DashboardWrapper({ children }: any) {
     return (
@@ -9,7 +10,10 @@ export default function DashboardWrapper({ children }: any) {
                     <Sidebar />
 
                     <div className="basis-full md:basis-[64%] flex flex-col bg-primary-500 bg-gradient-to-r from-primary-500 to-white">
-                        <div className="rounded-[42px] bg-[#F4FAFF] min-h-screen py-10 pb-32 gap-y-10 pl-6 pr-10 md:pl-0">
+                        <div className="rounded-[42px] bg-[#F4FAFF] min-h-screen pt-10 pb-32 flex flex-col gap-y-10 px-10">
+                            <div className="w-full flex justify-center">
+                                <Clock />
+                            </div>
                             {children}
                         </div>
                     </div>

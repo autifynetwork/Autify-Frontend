@@ -7,7 +7,7 @@ export default function SidebarButton({ icon, text, path }: any) {
     return (
         <div
             className={
-                'flex items-center px-4 py-2 gap-x-3 rounded-md ' +
+                'inline-block align-middle px-4 py-2 rounded-md ' +
                 (active ? 'bg-primary-600' : 'hover:bg-primary-600 cursor-pointer transition duration-300')
             }
             onClick={() => {
@@ -16,7 +16,7 @@ export default function SidebarButton({ icon, text, path }: any) {
                 }
             }}>
             {icon}
-            {text}
+            <span className="ml-3">{text}</span>
         </div>
     );
 }

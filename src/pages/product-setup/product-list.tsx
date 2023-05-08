@@ -5,7 +5,7 @@ export default function Dashboard(): JSX.Element {
     return (
         <PageWrapper useDefaultContainer={false}>
             <DashboardWrapper>
-                <h1 className="font-semibold text-4xl">Dashboard</h1>
+                <h1 className="font-semibold text-4xl">Product List</h1>
             </DashboardWrapper>
         </PageWrapper>
     );
