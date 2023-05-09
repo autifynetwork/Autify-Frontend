@@ -4,24 +4,30 @@ import Link from 'next/link';
 import SectionHeading from './SectionHeading';
 import SidebarButton from './SidebarButton';
 import SidebarDropdown from './SidebarDropdown';
+import { useRouter } from 'next/router';
 
 const Sidebar = () => {
+    const router = useRouter();
+
     return (
         <AnimatePresence>
             <motion.div
-                className="basis-full h-screen bg-primary-500 md:basis-[18%] p-6 space-y-4"
+                className="basis-full h-screen bg-primary-500 md:basis-[18%] p-8 space-y-4"
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -10, opacity: 0 }}
                 transition={{ duration: 0.2 }}>
-                <div className="w-full h-full flex flex-col gap-y-10 text-light-100">
+                <div className="w-full h-full flex flex-col gap-y-10 text-light-100 text-sm">
                     <div className="relative flex w-full 2xl:h-[135px] h-[100px]">
                         <Image src="/assets/logo-light.png" alt="logo" fill objectFit="contain" />
                     </div>
 
                     <Link
                         href="/dashboard"
-                        className="py-2 px-4 inline-block align-middle bg-primary-600 font-light rounded-lg">
+                        className={
+                            'py-2 px-4 inline-block align-middle font-light rounded-lg ' +
+                            (router.pathname == '/dashboard' ? 'bg-primary-600' : '')
+                        }>
                         <i className="fa-solid fa-house text-sm"></i>
                         <span className="ml-3">DASHBOARD</span>
                     </Link>

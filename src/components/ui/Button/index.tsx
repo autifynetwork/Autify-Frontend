@@ -1,39 +1,44 @@
 export default function Button({
     variant = 'primary',
     outline = false,
+    rounded,
     type,
     disabled,
     onClick,
     children,
     classes,
-    rounded,
     isLoading = false,
 }: any) {
     return (
         <button
             type={type ? type : 'submit'}
-            disabled={disabled ? disabled : false}
-            onClick={() => (onClick ? onClick() : {})}
+            disabled={disabled || isLoading ? disabled : false}
+            onClick={() => (!isLoading && !disabled && onClick ? onClick() : {})}
             className={
-                `w-full flex items-center justify-center ` +
+                `w-full flex items-center justify-center font-primary font-medium transition duration-300 shadow-md text-[16px] ` +
                 (isLoading ? `cursor-default ` : `cursor-pointer `) +
+                (outline ? `px-5 py-[8px] ` : `px-6 py-2 `) +
                 (variant == 'primary'
-                    ? (outline
-                          ? isLoading
-                              ? `border-2 border-transparent bg-primary-200 `
-                              : `border-2 border-primary-400 hover:bg-primary-400 hover:text-light-100 text-primary-500 `
-                          : (isLoading ? `bg-dark-200 ` : `bg-primary-800 hover:bg-dark-700 `) + `text-light-100 `) +
-                      `font-primary font-semibold transition duration-300 shadow-lg `
-                    : (variant = 'secondary'
-                          ? (outline
-                                ? isLoading
-                                    ? `border-2 border-transparent bg-secondary-200 `
-                                    : `border-2 border-secondary-400 hover:bg-secondary-400 hover:text-light-100 text-secondary-500 `
-                                : (isLoading ? `bg-secondary-300 ` : `bg-secondary-400 hover:bg-secondary-600 `) +
-                                  `text-light-100 `) + `font-primary font-semibold transition duration-300 `
-                          : ` `)) +
-                (rounded ? `rounded-full ` : `rounded-xl `) +
-                (classes ? classes : `text-md px-8 py-3`)
+                    ? outline
+                        ? isLoading
+                            ? `border-2 border-transparent bg-primary-500 `
+                            : `border-2 border-primary-500 hover:bg-primary-500 hover:text-light-100 text-primary-500 `
+                        : (isLoading ? `bg-primary-300 ` : `bg-primary-500 hover:bg-primary-600 `) + `text-light-100 `
+                    : variant == 'secondary'
+                    ? outline
+                        ? isLoading
+                            ? `border-2 border-transparent bg-dark-200 `
+                            : `border-2 border-primary-800 hover:bg-primary-800 hover:text-light-100 text-primary-800 `
+                        : (isLoading ? `bg-dark-200 ` : `bg-primary-800 hover:bg-dark-700 `) + `text-light-100 `
+                    : variant == 'tertiary'
+                    ? outline
+                        ? isLoading
+                            ? `border-2 border-transparent bg-primary-200 `
+                            : `border-2 border-primary-800 hover:bg-primary-400 hover:text-light-100 text-primary-500 `
+                        : (isLoading ? `bg-dark-200 ` : `bg-primary-800 hover:bg-dark-700 `) + `text-light-100 `
+                    : ` `) +
+                (rounded ? `rounded-full ` : `rounded-lg `) +
+                (classes ? classes : `text-md px-8 py-2`)
             }>
             {isLoading ? (
                 <span className={variant == 'primary' && outline ? 'loader-dark' : 'loader'}></span>

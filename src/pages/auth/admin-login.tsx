@@ -170,7 +170,7 @@ export default function AdminLogin() {
                                     </div>
 
                                     <div className="mt-10">
-                                        <Button variant="primary" isLoading={isButtonDisabled}>
+                                        <Button variant="secondary" isLoading={isButtonDisabled}>
                                             Sign In
                                         </Button>
                                     </div>
