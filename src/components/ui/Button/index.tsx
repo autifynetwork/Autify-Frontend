@@ -36,6 +36,12 @@ export default function Button({
                             ? `border-2 border-transparent bg-primary-200 `
                             : `border-2 border-primary-800 hover:bg-primary-400 hover:text-light-100 text-primary-500 `
                         : (isLoading ? `bg-dark-200 ` : `bg-primary-800 hover:bg-dark-700 `) + `text-light-100 `
+                    : variant == 'white'
+                    ? outline
+                        ? isLoading
+                            ? `border-2 border-transparent bg-light-100 `
+                            : `border-2 border-primary-800 hover:bg-light-100/80 text-primary-500 `
+                        : (isLoading ? `bg-light-200 ` : `bg-light-100 hover:bg-light-200 `) + `text-dark-800 `
                     : ` `) +
                 (rounded ? `rounded-full ` : `rounded-lg `) +
                 (classes ? classes : `text-md px-8 py-2`)

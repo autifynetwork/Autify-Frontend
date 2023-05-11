@@ -7910,6 +7910,14 @@
     "loose-envify" "^1.1.0"
     "scheduler" "^0.23.0"
 
+"react-image-crop@8.6.12":
+  "integrity" "sha512-3CNz1xfsRRSH/iH023IDMXxzsb1M6RTHHUVsVcb8uFPcjGiA9WisvQ24G1eRDf2j4NlybupOEEdfK2vT0etN6A=="
+  "resolved" "https://registry.npmjs.org/react-image-crop/-/react-image-crop-8.6.12.tgz"
+  "version" "8.6.12"
+  dependencies:
+    "clsx" "^1.1.1"
+    "prop-types" "^15.7.2"
+
 "react-is@^16.13.1", "react-is@^16.7.0":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
@@ -7939,7 +7947,7 @@
   dependencies:
     "clsx" "^1.1.1"
 
-"react@*", "react@^16 || ^17 || ^18", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^18.0.0", "react@^18.2.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16", "react@18.2.0":
+"react@*", "react@^16 || ^17 || ^18", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^18.0.0", "react@^18.2.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16", "react@>=16.13.1", "react@18.2.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"
