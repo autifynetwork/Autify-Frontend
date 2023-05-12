@@ -10,7 +10,7 @@ export default function DashboardWrapper({ children }: any) {
                     <Sidebar />
 
                     <div className="basis-full md:basis-[64%] flex flex-col bg-primary-500 bg-gradient-to-r from-primary-500 to-white">
-                        <div className="rounded-[42px] bg-[#F4FAFF] min-h-screen pt-10 pb-32 flex flex-col gap-y-20 px-10">
+                        <div className="rounded-[42px] bg-[#F4FAFF] min-h-screen pt-10 pb-32 flex flex-col gap-y-16 px-10">
                             <div className="w-full flex justify-center">
                                 <Clock />
                             </div>

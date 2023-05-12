@@ -7,7 +7,7 @@ import Underline from '@/components/ui/Underline';
 import Table from '@/components/ui/Table';
 
 const Categories = () => {
-    const [categoryData, setCategoryData] = useState({ name: '', image: '' });
+    const [categoryData, setCategoryData] = useState({ name: '' });
     const onFieldChange = (e: { target: { name: any; value: any } }) => {
         setCategoryData({ ...categoryData, [e.target.name]: e.target.value });
     };
@@ -66,9 +66,7 @@ const Categories = () => {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-8 rounded-[30px] bg-light-100 p-10">
-                <Table />
-            </div>
+            <Table heading={'CATEGORY TABLE'} />
         </>
     );
 };

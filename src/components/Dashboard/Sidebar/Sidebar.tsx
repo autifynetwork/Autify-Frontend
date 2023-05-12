@@ -12,7 +12,7 @@ const Sidebar = () => {
     return (
         <AnimatePresence>
             <motion.div
-                className="basis-full h-screen bg-primary-500 md:basis-[18%] p-8 space-y-4"
+                className="basis-full min-h-screen bg-primary-500 md:basis-[18%] p-8 space-y-4"
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -10, opacity: 0 }}
