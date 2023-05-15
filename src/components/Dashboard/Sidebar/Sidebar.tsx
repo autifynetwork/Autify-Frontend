@@ -19,7 +19,7 @@ const Sidebar = () => {
                 transition={{ duration: 0.2 }}>
                 <div className="w-full h-full flex flex-col gap-y-10 text-light-100 text-sm">
                     <div className="relative flex w-full 2xl:h-[135px] h-[100px]">
-                        <Image src="/assets/logo-light.png" alt="logo" fill objectFit="contain" />
+                        <Image src="/assets/logo_white_transparent_bg.png" alt="logo" fill objectFit="contain" />
                     </div>
 
                     <Link

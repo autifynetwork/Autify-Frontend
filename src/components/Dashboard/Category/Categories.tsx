@@ -4,7 +4,7 @@ import TextInput from '@/components/ui/Input/TextInput';
 import ImageUploadInput from '@/components/ui/Input/ImageUploadInput';
 import Button from '@/components/ui/Button';
 import Underline from '@/components/ui/Underline';
-import Table from '@/components/ui/Table';
+import Table from '@/components/Dashboard/Category/Table';
 
 const Categories = () => {
     const [categoryData, setCategoryData] = useState({ name: '' });
@@ -13,6 +13,16 @@ const Categories = () => {
     };
 
     const [image, setImage] = useState('');
+
+    const [tableData, setTableData] = useState({
+        head: ['SL No', 'Name', 'Product Image', 'Status', 'Action'],
+        body: [
+            { id: 1, name: 'Category 1', image: '', status: 'active' },
+            { id: 2, name: 'Category 2', image: '', status: 'active' },
+            { id: 3, name: 'Category 3', image: '', status: 'inactive' },
+            { id: 4, name: 'Category 4', image: '', status: 'active' },
+        ],
+    });
 
     return (
         <>
@@ -66,7 +76,7 @@ const Categories = () => {
                 </div>
             </div>
 
-            <Table heading={'CATEGORY TABLE'} />
+            <Table heading={'CATEGORY TABLE'} tableData={tableData} setTableData={setTableData} />
         </>
     );
 };
