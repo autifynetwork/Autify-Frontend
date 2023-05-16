@@ -2,7 +2,8 @@ import { useState } from 'react';
 import TextInput from '@/components/ui/Input/TextInput';
 import Button from '@/components/ui/Button';
 import Underline from '@/components/ui/Underline';
-import Table from '@/components/Dashboard/Category/Table';
+import Table from '@/components/Dashboard/Table';
+import TableSearch from '@/components/Dashboard/TableSearch';
 
 const SubCategories = () => {
     const [subCategoryData, setSubCategoryData] = useState({ name: '', category: '' });
@@ -10,6 +11,10 @@ const SubCategories = () => {
         setSubCategoryData({ ...subCategoryData, [e.target.name]: e.target.value });
     };
 
+    const [tableSearchText, setTableSearchText] = useState('');
+    const onSearchTextChange = (e: { target: { name: any; value: any } }) => {
+        setTableSearchText(e.target.value);
+    };
     const [tableData, setTableData] = useState({
         head: ['SL No', 'Main Category Name', 'Sub Category Name', 'Status', 'Action'],
         body: [
@@ -59,9 +64,16 @@ const SubCategories = () => {
 
             <Table
                 heading={'SUB-CATEGORY TABLE'}
+                header={
+                    <TableSearch
+                        name={'tableSearchText'}
+                        value={tableSearchText}
+                        onFieldChange={onSearchTextChange}
+                        placeholder={'Search for...'}
+                    />
+                }
                 tableData={tableData}
                 setTableData={setTableData}
-                imagePresent={false}
             />
         </>
     );

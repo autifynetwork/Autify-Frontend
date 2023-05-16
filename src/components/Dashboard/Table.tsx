@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Toggle from '@/components/ui/Toggle';
-import EditDetailsModal from '@/components/Dashboard/Category/EditDetailsModal';
-import DeleteModal from '@/components/Dashboard/Category/DeleteModal';
+import EditDetailsModal from '@/components/Dashboard/Category-Setup/EditDetailsModal';
+import DeleteModal from '@/components/Dashboard/Category-Setup/DeleteModal';
 
-const Table = ({ heading = 'Table', tableData, setTableData, imagePresent = true }: any) => {
+const Table = ({ header, heading, tableData, setTableData }: any) => {
     const tableRowClasses = `py-3`;
     const [isEditDetailsModalOpen, setEditDetailsModalOpen] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -23,7 +23,9 @@ const Table = ({ heading = 'Table', tableData, setTableData, imagePresent = true
 
     return (
         <div className="flex flex-col rounded-[30px] bg-light-100 pt-5 pb-8">
-            <span className="px-10 text-xs font-semibold">{heading}</span>
+            <div className="flex justify-between items-center px-10">
+                {heading && <span className="text-xs font-semibold">{heading}</span>} {header}
+            </div>
 
             <table id="myTable" className="w-full table mt-4">
                 <thead className="bg-[#F1F3F9]">
@@ -46,38 +48,41 @@ const Table = ({ heading = 'Table', tableData, setTableData, imagePresent = true
                     {tableData.body &&
                         tableData.body.map((item: any, index: number) => (
                             <tr key={item.id} className={index % 2 == 0 ? 'bg-white' : 'bg-[#F7FAFC]'}>
-                                <td className={'pl-10 ' + tableRowClasses}>{item.id}</td>
-                                <td className={tableRowClasses}>
-                                    <div className="rounded-md px-5 py-1 bg-[#E1F3FFD4] w-fit text-[13px] font-semibold">
-                                        {item.name}
-                                    </div>
-                                </td>
-                                {imagePresent ? (
-                                    <td className={tableRowClasses}>
-                                        {item.image ? (
-                                            <Image src={item.image} alt="category image" />
-                                        ) : (
-                                            <div
-                                                className={`bg-primary-300 opacity-40 w-12 h-12 flex items-center justify-center rounded-lg text-light-100 text-xl`}>
-                                                <i className="fa-solid fa-image"></i>
+                                {Object.keys(item).map((key, idx) => (
+                                    <td key={key} className={tableRowClasses + (idx == 0 ? ' pl-10' : '')}>
+                                        {key == 'id' ? (
+                                            item.id
+                                        ) : key == 'name' ? (
+                                            <div className="rounded-md px-5 py-1 bg-[#E1F3FFD4] w-fit text-[13px] font-semibold">
+                                                {item.name}
                                             </div>
-                                        )}
+                                        ) : key == 'image' ? (
+                                            item.image ? (
+                                                <Image src={item.image} alt="category image" />
+                                            ) : (
+                                                <div
+                                                    className={`bg-primary-300 opacity-40 w-12 h-12 flex items-center justify-center rounded-lg text-light-100 text-xl`}>
+                                                    <i className="fa-solid fa-image"></i>
+                                                </div>
+                                            )
+                                        ) : key == 'subCategoryName' ? (
+                                            <div className="rounded-md px-5 py-1 bg-[#E1F3FFD4] w-fit text-[13px] font-semibold">
+                                                {item.subCategoryName}
+                                            </div>
+                                        ) : key == 'mainCategoryName' ? (
+                                            <div className="rounded-md px-5 py-1 bg-[#E1F3FFD4] w-fit text-[13px] font-semibold">
+                                                {item.mainCategoryName}
+                                            </div>
+                                        ) : key == 'status' ? (
+                                            <Toggle
+                                                toggleState={item.status == 'active'}
+                                                setToggleState={(e: boolean) => {
+                                                    onTableDataChange(e, index);
+                                                }}
+                                            />
+                                        ) : null}
                                     </td>
-                                ) : (
-                                    <td className={tableRowClasses}>
-                                        <div className="rounded-md px-5 py-1 bg-[#E1F3FFD4] w-fit text-[13px] font-semibold">
-                                            {item.subCategoryName}
-                                        </div>
-                                    </td>
-                                )}
-                                <td className={tableRowClasses}>
-                                    <Toggle
-                                        toggleState={item.status == 'active'}
-                                        setToggleState={(e: boolean) => {
-                                            onTableDataChange(e, index);
-                                        }}
-                                    />
-                                </td>
+                                ))}
 
                                 <td className={tableRowClasses}>
                                     <div className="h-full flex gap-x-4 items-center justify-start">

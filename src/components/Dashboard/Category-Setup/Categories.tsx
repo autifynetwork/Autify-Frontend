@@ -4,7 +4,8 @@ import TextInput from '@/components/ui/Input/TextInput';
 import ImageUploadInput from '@/components/ui/Input/ImageUploadInput';
 import Button from '@/components/ui/Button';
 import Underline from '@/components/ui/Underline';
-import Table from '@/components/Dashboard/Category/Table';
+import Table from '@/components/Dashboard/Table';
+import TableSearch from '@/components/Dashboard/TableSearch';
 
 const Categories = () => {
     const [categoryData, setCategoryData] = useState({ name: '' });
@@ -14,6 +15,10 @@ const Categories = () => {
 
     const [image, setImage] = useState('');
 
+    const [tableSearchText, setTableSearchText] = useState('');
+    const onSearchTextChange = (e: { target: { name: any; value: any } }) => {
+        setTableSearchText(e.target.value);
+    };
     const [tableData, setTableData] = useState({
         head: ['SL No', 'Name', 'Product Image', 'Status', 'Action'],
         body: [
@@ -76,7 +81,19 @@ const Categories = () => {
                 </div>
             </div>
 
-            <Table heading={'CATEGORY TABLE'} tableData={tableData} setTableData={setTableData} />
+            <Table
+                heading={'CATEGORY TABLE'}
+                header={
+                    <TableSearch
+                        name={'tableSearchText'}
+                        value={tableSearchText}
+                        onFieldChange={onSearchTextChange}
+                        placeholder={'Search for...'}
+                    />
+                }
+                tableData={tableData}
+                setTableData={setTableData}
+            />
         </>
     );
 };

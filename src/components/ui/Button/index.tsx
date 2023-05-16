@@ -15,7 +15,7 @@ export default function Button({
             disabled={disabled || isLoading ? disabled : false}
             onClick={() => (!isLoading && !disabled && onClick ? onClick() : {})}
             className={
-                `w-full flex items-center justify-center font-primary font-medium transition duration-300 shadow-md text-[16px] ` +
+                `w-full flex items-center justify-center text-center font-primary font-medium transition duration-300 shadow-md text-[16px] whitespace-nowrap ` +
                 (isLoading ? `cursor-default ` : `cursor-pointer `) +
                 (outline ? `px-5 py-[8px] ` : `px-6 py-2 `) +
                 (variant == 'primary'

@@ -82,6 +82,7 @@ module.exports = {
             },
             fontFamily: {
                 primary: ['JosefinSans', 'sans-serif'],
+                secondary: ['Arial', 'sans-serif'],
             },
         },
     },

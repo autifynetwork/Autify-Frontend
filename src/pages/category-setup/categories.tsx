@@ -1,6 +1,6 @@
 import PageWrapper from '@/layout/PageWrapper';
 import DashboardWrapper from '@/layout/DashboardWrapper';
-import Categories from '@/components/Dashboard/Category/Categories';
+import Categories from '@/components/Dashboard/Category-Setup/Categories';
 
 export default function Dashboard(): JSX.Element {
     return (
