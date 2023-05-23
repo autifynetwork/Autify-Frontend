@@ -17,7 +17,7 @@ export default function Button({
             className={
                 `w-full flex items-center justify-center text-center font-primary font-medium transition duration-300 shadow-md text-[16px] whitespace-nowrap ` +
                 (isLoading ? `cursor-default ` : `cursor-pointer `) +
-                (outline ? `px-5 py-[8px] ` : `px-6 py-2 `) +
+                (outline ? `px-5 py-[7px] ` : `px-6 py-2 `) +
                 (variant == 'primary'
                     ? outline
                         ? isLoading
@@ -40,7 +40,7 @@ export default function Button({
                     ? outline
                         ? isLoading
                             ? `border-2 border-transparent bg-light-100 `
-                            : `border-2 border-primary-800 hover:bg-light-100/80 text-primary-500 `
+                            : `border-2 border-primary-800 hover:bg-light-100/80 text-dark-800 `
                         : (isLoading ? `bg-light-200 ` : `bg-light-100 hover:bg-light-200 `) + `text-dark-800 `
                     : ` `) +
                 (rounded ? `rounded-full ` : `rounded-lg `) +

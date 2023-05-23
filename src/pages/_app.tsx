@@ -5,6 +5,7 @@ import UserProvider from '@/store/UserContext';
 import LoadingProvider from '@/store/LoadingContext';
 import { SmartAccountProvider } from '@/store/SmartAccountContext';
 import '@/styles/globals.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import { wrapper } from '@/redux/redux-store';
 import { ApolloProvider } from '@apollo/client';
 import apolloClient from '@/lib/apollo-client';
