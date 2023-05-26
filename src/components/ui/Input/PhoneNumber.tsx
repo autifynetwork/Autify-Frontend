@@ -1,6 +1,6 @@
 import { countryCodes } from '@/config/constants';
 
-const PhoneNumber = ({ label = '', value, onFieldChange }: any) => {
+const PhoneNumber = ({ label = '', name, value, onFieldChange }: any) => {
     return (
         <div className="w-full flex flex-col justify-end">
             <p className="text-dark-700 font-medium mb-2">{label}</p>
@@ -9,7 +9,7 @@ const PhoneNumber = ({ label = '', value, onFieldChange }: any) => {
                     <select
                         id="countryCode"
                         name="countryCode"
-                        className="focus:ring-primary-500 focus:border-primary-500 outline-none h-full py-0 px-4 border-r border-dark-500 bg-transparent text-dark-500 text-sm rounded-l-xl cursor-pointer">
+                        className="selectField outline-none h-full py-0 px-4 border-r border-dark-500 bg-transparent text-dark-500 text-sm rounded-l-xl cursor-pointer">
                         {countryCodes.map((countryCode) => {
                             return (
                                 <option key={countryCode} value={countryCode}>
@@ -21,7 +21,7 @@ const PhoneNumber = ({ label = '', value, onFieldChange }: any) => {
                 </div>
                 <input
                     type="tel"
-                    name="phoneNumber"
+                    name={name}
                     value={value}
                     onChange={onFieldChange}
                     pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"

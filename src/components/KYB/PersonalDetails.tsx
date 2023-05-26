@@ -51,7 +51,12 @@ const PersonalDetails = ({ formValues, onFieldChange, dob, setDob }: any) => {
                 variant={'black'}
             />
 
-            <PhoneNumber label={'Phone Number'} value={formValues.phoneNumber} onFieldChange={onFieldChange} />
+            <PhoneNumber
+                label={'Phone Number'}
+                name={'phoneNumber'}
+                value={formValues.phoneNumber}
+                onFieldChange={onFieldChange}
+            />
 
             <TextInput
                 label={'Job Title'}
@@ -66,6 +71,7 @@ const PersonalDetails = ({ formValues, onFieldChange, dob, setDob }: any) => {
 
             <PhoneNumber
                 label={'Alternative Phone Number'}
+                name={'alternativePhoneNumber'}
                 value={formValues.alternativePhoneNumber}
                 onFieldChange={onFieldChange}
             />

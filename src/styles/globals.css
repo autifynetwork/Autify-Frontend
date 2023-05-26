@@ -173,3 +173,15 @@ body {
 .react-datepicker__navigation-icon {
     @apply text-primary-600 !important;
 }
+
+.selectField {
+    width: 80px;
+    padding: 16px;
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: none;
+    background-image: url('https://www.svgrepo.com/show/80156/down-arrow.svg');
+    background-repeat: no-repeat;
+    background-size: 10px 10px;
+    background-position: 56px;
+}

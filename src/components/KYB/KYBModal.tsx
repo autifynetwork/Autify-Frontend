@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Sidebar from '@/components/KYB/Sidebar';
 import PersonalDetails from '@/components/KYB/PersonalDetails';
 import BusinessDetails from '@/components/KYB/BusinessDetails';
+import UploadDocuments from '@/components/KYB/UploadDocuments';
 import ActionButtons from '@/components/KYB/ActionButtons';
 
 export default function KYBModal({ isOpen = false, setOpen }: any) {
@@ -41,11 +42,28 @@ export default function KYBModal({ isOpen = false, setOpen }: any) {
         industry: '',
         businessType: '',
         businessSize: '',
+        cinFile: '',
+        businessPANFile: '',
+        businessTANFile: '',
+        moaFile: '',
     });
     const [dob, setDob] = useState(new Date());
     const [yearOfIncorporation, setYearOfIncorporation] = useState(new Date());
     const onFieldChange = (e: any) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    };
+    const handleFileUpload = async (e: any) => {
+        // If file size is > 10 MB show error box
+        if (e.target.files[0] && e.target.files[0].size > 10000000) {
+            alert('File too large: Uploaded file should be less than 10 MB');
+            return;
+        }
+        if (e.target.files[0]) {
+            setFormValues({ ...formValues, [e.target.name]: e.target.files[0] });
+        }
+    };
+    const handleFileCancel = (e: any) => {
+        setFormValues({ ...formValues, [e.target.name]: '' });
     };
 
     const submitHandler = () => {
@@ -55,6 +73,7 @@ export default function KYBModal({ isOpen = false, setOpen }: any) {
 
     const step1Values = { formValues, onFieldChange, dob, setDob };
     const step2Values = { formValues, onFieldChange, yearOfIncorporation, setYearOfIncorporation };
+    const step3Values = { formValues, handleFileUpload, handleFileCancel };
 
     return (
         <>
@@ -111,7 +130,7 @@ export default function KYBModal({ isOpen = false, setOpen }: any) {
                                     ) : step == 2 ? (
                                         <BusinessDetails {...step2Values} />
                                     ) : (
-                                        <></>
+                                        <UploadDocuments {...step3Values} />
                                     )}
 
                                     <ActionButtons step={step} lastStep={lastStep} prevStep={prevStep} />
