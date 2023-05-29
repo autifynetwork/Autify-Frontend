@@ -8,7 +8,7 @@ export default function SidebarButton({ icon, text, path }: any) {
         <div
             className={
                 'inline-block align-middle px-4 py-2 rounded-md ' +
-                (active ? 'bg-primary-600' : 'hover:bg-primary-600 cursor-pointer transition duration-300')
+                (active ? 'bg-primary-600 uppercase' : 'hover:bg-primary-600 cursor-pointer transition duration-300')
             }
             onClick={() => {
                 if (!active) {

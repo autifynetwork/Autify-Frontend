@@ -14,6 +14,7 @@ function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Script src="https://kit.fontawesome.com/51d719f5d6.js" crossOrigin="anonymous"></Script>
+            <Script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></Script>
 
             <ApolloProvider client={apolloClient}>
                 <UserProvider>

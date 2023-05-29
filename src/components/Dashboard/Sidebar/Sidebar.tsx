@@ -78,6 +78,11 @@ const Sidebar = () => {
                     <div className="flex flex-col gap-y-2">
                         <SectionHeading>HELP & SUPPORT SECTION</SectionHeading>
                         <SidebarButton
+                            icon={<i className="fa-solid fa-clipboard-question"></i>}
+                            text="Knowledge Base"
+                            path={'/knowledge-base'}
+                        />
+                        <SidebarButton
                             icon={<i className="fa-solid fa-headset"></i>}
                             text="Raise Ticket"
                             path={'/raise-ticket'}
