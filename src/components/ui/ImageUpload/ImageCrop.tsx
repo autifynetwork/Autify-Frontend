@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+// @ts-ignore
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import Button from '@/components/ui/Button';
