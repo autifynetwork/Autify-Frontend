@@ -1,11 +1,12 @@
 import PageWrapper from '@/layout/PageWrapper';
 import DashboardWrapper from '@/layout/DashboardWrapper';
+import KnowledgeBaseComponent from '@/components/Dashboard/KnowledgeBase';
 
-export default function Dashboard(): JSX.Element {
+export default function KnowledgeBase(): JSX.Element {
     return (
         <PageWrapper useDefaultContainer={false}>
             <DashboardWrapper>
-                <h1 className="font-semibold text-4xl">Dashboard</h1>
+                <KnowledgeBaseComponent />
             </DashboardWrapper>
         </PageWrapper>
     );

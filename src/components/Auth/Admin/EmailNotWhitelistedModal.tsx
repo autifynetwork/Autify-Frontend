@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
+import Underline from '@/components/ui/Underline';
 
 const EmailNotWhitelistedModal = ({ isOpen, setOpen }: any) => {
     return (
@@ -10,10 +11,7 @@ const EmailNotWhitelistedModal = ({ isOpen, setOpen }: any) => {
                 header={
                     <div className="font-base">
                         PRODUCT WAITLIST
-                        <div className="w-full flex mt-2">
-                            <p className="w-[103px] border-b-2 border-dark-400"></p>
-                            <p className="w-[160px] border-b border-[#6A6A6A]"></p>
-                        </div>
+                        <Underline />
                     </div>
                 }
                 image={
@@ -27,7 +25,7 @@ const EmailNotWhitelistedModal = ({ isOpen, setOpen }: any) => {
                             Looks like we are unable to find your email in our database
                         </div>
                         <div className="m-0 p-0 mt-4 w-1/3 flex items-center justify-center">
-                            <Button type="button" variant="primary" classes="text-md px-4 py-2">
+                            <Button type="button" variant="secondary" classes="text-md px-4 py-2">
                                 Talk to us
                             </Button>
                         </div>

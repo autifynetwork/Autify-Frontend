@@ -7,7 +7,7 @@ body {
     padding: 0 !important;
     margin: 0 !important;
     @apply font-primary;
-    @apply text-dark-900;
+    @apply text-dark-900 bg-primary-500;
 }
 
 @font-face {
@@ -139,4 +139,49 @@ body {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/**************************************************************************/
+/************************    React Datepicker   ***************************/
+/**************************************************************************/
+.react-datepicker {
+    @apply rounded-md border-2 border-primary-500 overflow-hidden !important;
+}
+
+.react-datepicker__header {
+    @apply rounded-sm;
+}
+
+.react-datepicker__day:hover,
+.react-datepicker__time-list-item:hover {
+    @apply bg-primary-600 text-light-100 !important;
+}
+
+.react-datepicker__input-container > input {
+    @apply w-full focus:ring-primary-500 focus:border-primary-500 block pl-10 py-[16px] rounded-xl text-sm border shadow-md border-dark-500 text-dark-500 transition duration-300 cursor-pointer !important;
+}
+
+.react-datepicker__input-container > input:focus {
+    outline: none;
+    border: 2px solid #6cc027;
+}
+
+.react-datepicker__day--selected {
+    @apply bg-primary-600 !important;
+}
+
+.react-datepicker__navigation-icon {
+    @apply text-primary-600 !important;
+}
+
+.selectField {
+    width: 80px;
+    padding: 16px;
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: none;
+    background-image: url('https://www.svgrepo.com/show/80156/down-arrow.svg');
+    background-repeat: no-repeat;
+    background-size: 10px 10px;
+    background-position: 56px;
 }

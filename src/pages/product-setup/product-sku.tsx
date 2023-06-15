@@ -1,11 +1,12 @@
 import PageWrapper from '@/layout/PageWrapper';
 import DashboardWrapper from '@/layout/DashboardWrapper';
+import ProductSku from '@/components/Dashboard/Product-Setup/ProductSku';
 
 export default function Dashboard(): JSX.Element {
     return (
         <PageWrapper useDefaultContainer={false}>
             <DashboardWrapper>
-                <h1 className="font-semibold text-4xl">Dashboard</h1>
+                <ProductSku />
             </DashboardWrapper>
         </PageWrapper>
     );

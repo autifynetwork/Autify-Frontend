@@ -7,10 +7,10 @@ module.exports = {
                 primary: {
                     100: '#e0f2f1',
                     200: '#b2dfdb',
-                    300: '#80cbc4',
+                    300: '#BEE9FF',
                     400: '#D7F0FF',
-                    500: '#26a69a',
-                    600: '#009688',
+                    500: '#3B76EF',
+                    600: '#5C92FF',
                     700: '#00897b',
                     800: '#032A3E',
                     900: '#00695c',
@@ -82,6 +82,7 @@ module.exports = {
             },
             fontFamily: {
                 primary: ['JosefinSans', 'sans-serif'],
+                secondary: ['Arial', 'sans-serif'],
             },
         },
     },

@@ -1,0 +1,42 @@
+/* The switch - the box around the slider */
+.switch {
+    @apply relative inline-block w-[48px] h-[22px];
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    @apply w-0 h-0 opacity-0;
+}
+
+/* The slider */
+.slider {
+    @apply absolute cursor-pointer rounded-[34px] top-0 left-0 right-0 bottom-0 bg-primary-400;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.slider:before {
+    @apply absolute h-[16px] w-[16px] left-[4px] bottom-[3px] bg-white;
+    content: '';
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    @apply bg-[#2699FB];
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(24px);
+    -ms-transform: translateX(24px);
+    transform: translateX(24px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    @apply rounded-[34px];
+}
+
+.slider.round:before {
+    @apply rounded-full;
+}
