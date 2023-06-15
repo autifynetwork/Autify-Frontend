@@ -1,6 +1,6 @@
 import Modal from '@/components/ui/Modal';
 
-const DeleteModal = ({ isOpen, setOpen, title, confirmation, name, deleteHandler }: any) => {
+const DeleteModal = ({ isOpen, setOpen, title, confirmation, name }: any) => {
     return (
         <Modal
             isOpen={isOpen}
@@ -15,7 +15,6 @@ const DeleteModal = ({ isOpen, setOpen, title, confirmation, name, deleteHandler
                     <form
                         onSubmit={async (e) => {
                             e.preventDefault();
-                            // deleteHandler();
                         }}>
                         <div className="flex flex-col justify-center">
                             <div className="flex justify-center items-center gap-x-4">
