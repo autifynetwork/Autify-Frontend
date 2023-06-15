@@ -1,4 +1,5 @@
 import Image from 'next/image';
+// @ts-ignore
 import DatePicker from 'react-datepicker';
 
 export default function DateSelector({ label, startDate, setStartDate }: any) {
