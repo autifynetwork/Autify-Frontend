@@ -80,7 +80,9 @@ export default function ImageUpload({ image, setImage, required }: any) {
                 </div>
                 <div className="h-full flex items-center justify-center px-5 text-sm text-dark-200">
                     {image && selectedImage
-                        ? selectedImage?.current?.name.substr(0, 20) +
+                        ? // @ts-ignore
+                          selectedImage?.current?.name.substr(0, 20) +
+                          // @ts-ignore
                           (selectedImage?.current?.name.length > 20 ? '...' : '')
                         : 'No file chosen'}
                 </div>
