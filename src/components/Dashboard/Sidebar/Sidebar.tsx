@@ -12,12 +12,12 @@ const Sidebar = () => {
     return (
         <AnimatePresence>
             <motion.div
-                className="basis-full min-h-screen bg-primary-500 md:basis-[18%] p-8 space-y-4"
+                className="basis-full min-h-screen bg-primary-500 md:basis-[18%] p-8 pt-0 space-y-4"
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -10, opacity: 0 }}
                 transition={{ duration: 0.2 }}>
-                <div className="w-full h-full flex flex-col gap-y-10 text-light-100 text-sm">
+                <div className="relative w-full h-full flex flex-col gap-y-10 text-light-100 text-sm">
                     <div className="relative flex w-full 2xl:h-[135px] h-[100px]">
                         <Image src="/assets/logo_white_transparent_bg.png" alt="logo" fill objectFit="contain" />
                     </div>
