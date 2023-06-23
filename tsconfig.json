@@ -8,6 +8,7 @@
       "esnext",
       "es2017"
     ],
+    "types": ["chart.js"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
