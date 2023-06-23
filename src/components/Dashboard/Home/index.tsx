@@ -4,6 +4,7 @@ import StatusInfoCard from './StatusInfoCard';
 import TransactionsTable from '@/components/Dashboard/TransactionsTable';
 
 const Dashboard = () => {
+    // @ts-ignore
     const [tableData, setTableData] = useState({
         head: ['Name', 'Date', 'Type', 'Quantity', 'Transaction Type', 'Price', 'Amount'],
         body: [

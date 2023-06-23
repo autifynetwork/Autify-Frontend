@@ -4,6 +4,7 @@ import Chart, { ChartConfiguration } from 'chart.js/auto';
 const OrderStatusStats: React.FC = () => {
     const chartRef = useRef<HTMLCanvasElement | null>(null);
 
+    // @ts-ignore
     useEffect(() => {
         const data = {
             labels: ['Lorem.', 'Lorem.', 'Lorem.', 'Lorem.'],
