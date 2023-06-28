@@ -3,6 +3,7 @@ import Script from 'next/script';
 import Layout from '@/layout/Layout';
 import UserProvider from '@/store/UserContext';
 import LoadingProvider from '@/store/LoadingContext';
+import StatusContextProvider from '@/store/StatusContextProvider';
 import { SmartAccountProvider } from '@/store/SmartAccountContext';
 import '@/styles/globals.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -19,11 +20,13 @@ function App({ Component, pageProps }: AppProps) {
             <ApolloProvider client={apolloClient}>
                 <UserProvider>
                     <LoadingProvider>
-                        <SmartAccountProvider>
-                            <Layout>
-                                <Component {...pageProps} />
-                            </Layout>
-                        </SmartAccountProvider>
+                        <StatusContextProvider>
+                            <SmartAccountProvider>
+                                <Layout>
+                                    <Component {...pageProps} />
+                                </Layout>
+                            </SmartAccountProvider>
+                        </StatusContextProvider>
                     </LoadingProvider>
                 </UserProvider>
             </ApolloProvider>

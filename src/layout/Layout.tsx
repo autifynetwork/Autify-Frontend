@@ -5,6 +5,8 @@ import { UserContext } from '@/store/UserContext';
 import Loading from '@/components/ui/Loading';
 import KYBModal from '@/components/KYB/KYBModal';
 import KYBPopup from '@/components/KYB/KYBPopup';
+import ErrorBox from '@/components/ui/Toast/ErrorBox';
+import SuccessBox from '@/components/ui/Toast/SuccessBox';
 
 const Layout = ({ children }: any) => {
     const { setUser } = useContext(UserContext);
@@ -42,6 +44,8 @@ const Layout = ({ children }: any) => {
             <KYBPopup setKYBModalOpen={setKYBModalOpen} />
             {children}
             <KYBModal isOpen={isKYBModalOpen} setOpen={setKYBModalOpen} />
+            <ErrorBox style={3} />
+            <SuccessBox style={3} />
         </>
     );
 };
