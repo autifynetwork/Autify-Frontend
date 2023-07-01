@@ -118,7 +118,7 @@ export default function AdminLogin() {
                                 </div>
 
                                 <h1 className="mt-4 text-4xl font-semibold w-full whitespace-nowrap">ADMIN LOGIN</h1>
-                                <p className="w-full text-md text-start font-light mt-4">Lorem Ipsum.</p>
+                                <p className="w-full text-md text-start font-light mt-4">Hello there!</p>
 
                                 <form
                                     onSubmit={(e) => {
