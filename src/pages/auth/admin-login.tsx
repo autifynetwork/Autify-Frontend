@@ -373,13 +373,13 @@ export default function AdminLogin() {
                                 </svg>
                             </div>
 
-                            <div className="xl:w-[53%] lg:w-[60%] md:w-[70%] absolute top-[68%] left-1/2 transform -translate-x-[54%] -translate-y-1/3 bg-white/10 backdrop-blur rounded-2xl px-8 pt-14 pb-[94px] border border-[#C4C4C4]">
+                            {/* <div className="xl:w-[53%] lg:w-[60%] md:w-[70%] absolute top-[68%] left-1/2 transform -translate-x-[54%] -translate-y-1/3 bg-white/10 backdrop-blur rounded-2xl px-8 pt-14 pb-[94px] border border-[#C4C4C4]">
                                 <h2 className="text-3xl font-bold text-dark-400">Lorem Ipsum</h2>
                                 <p className="text-lg mt-4 text-dark-400">
                                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod t
                                     magna aliquyam erat, sed diam voluptua
                                 </p>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
