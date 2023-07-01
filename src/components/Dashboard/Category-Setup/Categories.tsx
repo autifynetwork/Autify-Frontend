@@ -34,7 +34,7 @@ const Categories = () => {
 
     const { setError, setSuccess } = useContext(StatusContext);
     const addCategory = async () => {
-        let imageUrl = 'image url 1iojrrasgddaagsggasfkagdgaqns';
+        let imageUrl = 'image url 1iojrrasgs';
         try {
             // if (image) {
             if (imageUrl) {
