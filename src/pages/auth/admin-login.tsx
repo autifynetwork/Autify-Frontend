@@ -90,7 +90,7 @@ export default function AdminLogin() {
                 }
             }
         } catch (error) {
-            setButtonDisabled(false); // re-enable login button - user may have requested to edit their email
+            setButtonDisabled(false);
             setLoading({ ...loading, status: false });
             dispatch(clearErrors());
             console.error(error);
