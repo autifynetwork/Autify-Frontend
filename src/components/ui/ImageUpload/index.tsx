@@ -68,7 +68,7 @@ export default function ImageUpload({ image, setImage, required }: any) {
                 type="file"
                 className="hidden"
                 id="imageToUpload"
-                name="coverArt"
+                name="image"
                 required={required}
             />
 
