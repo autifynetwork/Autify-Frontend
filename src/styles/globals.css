@@ -185,3 +185,8 @@ body {
     background-size: 10px 10px;
     background-position: 56px;
 }
+
+canvas,
+#qr-code svg {
+    border-radius: 20px;
+}
