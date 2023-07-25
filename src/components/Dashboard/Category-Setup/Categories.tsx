@@ -1,14 +1,16 @@
-import { useState, useContext } from 'react';
-import Image from 'next/image';
-import TextInput from '@/components/ui/Input/TextInput';
-import ImageUploadInput from '@/components/ui/Input/ImageUploadInput';
-import Button from '@/components/ui/Button';
-import Underline from '@/components/ui/Underline';
+import { useState, useEffect, useContext } from 'react';
 import Table from '@/components/Dashboard/Table';
-import TableSearch from '@/components/Dashboard/TableSearch';
 import { StatusContext } from '@/store/StatusContextProvider';
 import apolloClient from '@/lib/apollo-client';
-import { CREATE_CATEGORY_MUTATION } from '@/lib/queries/api';
+import {
+    CREATE_CATEGORY_MUTATION,
+    GET_ALL_CATEGORIES,
+    DELETE_CATEGORY_MUTATION,
+    UPDATE_CATEGORY_MUTATION,
+} from '@/lib/queries/api';
+import { useQuery, useMutation } from '@apollo/client';
+import AddCategory from './AddCategory';
+import { generateRandomString } from '@/utils';
 
 const Categories = () => {
     const [categoryData, setCategoryData] = useState({ name: '' });
@@ -17,24 +19,24 @@ const Categories = () => {
     };
 
     const [image, setImage] = useState('');
-
-    const [tableSearchText, setTableSearchText] = useState('');
-    const onSearchTextChange = (e: { target: { name: any; value: any } }) => {
-        setTableSearchText(e.target.value);
+    const [itemToUpdate, setItemToUpdate] = useState({ id: '', name: '' });
+    const onUpdateFieldChange = (e: { target: { name: any; value: any } }) => {
+        setItemToUpdate({ ...itemToUpdate, [e.target.name]: e.target.value });
     };
+
     const [tableData, setTableData] = useState({
         head: ['SL No', 'Name', 'Product Image', 'Status', 'Action'],
         body: [
-            { id: 1, name: 'Category 1', image: '', status: 'active' },
-            { id: 2, name: 'Category 2', image: '', status: 'active' },
-            { id: 3, name: 'Category 3', image: '', status: 'inactive' },
-            { id: 4, name: 'Category 4', image: '', status: 'active' },
+            // { serialNumber: 1, categoryName: 'Category 1', categoryImgUrl: '', status: 'active' },
+            // { serialNumber: 2, categoryName: 'Category 2', categoryImgUrl: '', status: 'active' },
+            // { serialNumber: 3, categoryName: 'Category 3', categoryImgUrl: '', status: 'inactive' },
+            // { serialNumber: 4, categoryName: 'Category 4', categoryImgUrl: '', status: 'active' },
         ],
     });
 
     const { setError, setSuccess } = useContext(StatusContext);
     const addCategory = async () => {
-        let imageUrl = 'image url 1iojrrasgs';
+        let imageUrl = generateRandomString(10);
         try {
             // if (image) {
             if (imageUrl) {
@@ -59,6 +61,7 @@ const Categories = () => {
                         showSuccessBox: true,
                     });
                 }
+                window.location.reload();
             } else {
                 setError({
                     title: 'Image is required',
@@ -78,6 +81,87 @@ const Categories = () => {
         }
     };
 
+    const { loading, error, data } = useQuery(GET_ALL_CATEGORIES);
+    useEffect(() => {
+        if (error) {
+            setError({
+                title: 'Something went wrong',
+                message: error?.message || 'Please try again',
+                showErrorBox: true,
+            });
+            return;
+        }
+    }, [error]);
+
+    const categories = data?.getAllCategories;
+    useEffect(() => {
+        if (categories && categories.length > 0) {
+            setTableData({
+                head: ['SL No', 'Name', 'Product Image', 'Status', 'Action'],
+                body: categories.map((category: any, index: number) => {
+                    return {
+                        serialNumber: index + 1,
+                        id: category.id,
+                        name: category.categoryName,
+                        image: category.categoryImgUrl,
+                        status: category.status ? 'active' : 'inactive',
+                    };
+                }),
+            });
+        }
+    }, [categories]);
+
+    const [deleteCategory] = useMutation(DELETE_CATEGORY_MUTATION);
+    const handleDeleteCategory = async (categoryId: string) => {
+        try {
+            const { data } = await deleteCategory({
+                variables: { categoryId },
+            });
+
+            // Handle the response data here if needed
+            console.log('Deleted Category:', data.deleteCategory);
+            setSuccess({
+                title: 'Category deleted successfully',
+                message: 'Selected category has been deleted',
+                showSuccessBox: true,
+            });
+            window.location.reload();
+        } catch (error) {
+            // Handle the error if the mutation fails
+            console.error('Error deleting category:', error.message);
+        }
+    };
+
+    const [updateCategory] = useMutation(UPDATE_CATEGORY_MUTATION);
+    const handleUpdateCategory = async (categoryId: string, newCategoryData: any) => {
+        let imageUrl = generateRandomString(10);
+        try {
+            const { data } = await updateCategory({
+                variables: {
+                    categoryId,
+                    categoryName: newCategoryData.name,
+                    categoryImgUrl: imageUrl,
+                    status: newCategoryData.status === 'active' ? true : false,
+                },
+            });
+            if (data?.updateCategory?.id) {
+                setSuccess({
+                    title: 'Category updated successfully',
+                    message: 'Selected category has been updated',
+                    showSuccessBox: true,
+                });
+            }
+        } catch (error) {
+            console.error('Error updating category:', error.message);
+            setError({
+                title: 'Something went wrong',
+                message: error?.message || 'Please try again',
+                showErrorBox: true,
+            });
+            return;
+        }
+    };
+
     return (
         <>
             <form
@@ -86,67 +170,42 @@ const Categories = () => {
                     addCategory();
                 }}
                 className="relative flex flex-col gap-8 rounded-[20px] bg-light-100 p-10">
-                <div>
-                    <h1 className="text-2xl font-semibold">Add Category</h1>
-                    <Underline />
-                </div>
-
-                <div className="absolute right-10 w-[100px] h-[100px] rounded-lg">
-                    {image ? (
-                        <Image
-                            src={image}
-                            alt="image"
-                            objectFit="cover"
-                            layout="fill"
-                            className="rounded-lg"
-                            priority
-                        />
-                    ) : (
-                        <div
-                            className={`bg-primary-300 opacity-40 w-full h-full flex items-center justify-center rounded-lg text-light-100 text-4xl`}>
-                            <i className="fa-solid fa-image"></i>
-                        </div>
-                    )}
-                </div>
-
-                <div className="grid grid-cols-2 gap-10 mt-6">
-                    <TextInput
-                        label={'Category Name'}
-                        type={'text'}
-                        value={categoryData.name}
-                        name={'name'}
-                        onFieldChange={onFieldChange}
-                        placeholder="Ex. Garments"
-                        required={true}
-                    />
-
-                    <ImageUploadInput
-                        image={image}
-                        setImage={setImage}
-                        label={'Category Image (Ratio 1 : 1)'}
-                        required={false}
-                    />
-                </div>
-
-                <div className="flex self-end">
-                    <Button type="submit" variant="primary">
-                        Submit
-                    </Button>
-                </div>
+                <AddCategory
+                    categoryData={categoryData}
+                    onFieldChange={onFieldChange}
+                    image={image}
+                    setImage={setImage}
+                />
             </form>
 
             <Table
+                loading={loading}
                 heading={'CATEGORY TABLE'}
-                header={
-                    <TableSearch
-                        name={'tableSearchText'}
-                        value={tableSearchText}
-                        onFieldChange={onSearchTextChange}
-                        placeholder={'Search for...'}
-                    />
-                }
+                type={'category'}
                 tableData={tableData}
                 setTableData={setTableData}
+                handleDelete={handleDeleteCategory}
+                handleUpdate={handleUpdateCategory}
+                setItemToUpdate={setItemToUpdate}
+                editComponent={
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleUpdateCategory(itemToUpdate.id, itemToUpdate);
+                            window.location.reload();
+                        }}
+                        className="relative flex flex-col gap-8 p-10">
+                        <AddCategory
+                            categoryData={categoryData}
+                            onFieldChange={onFieldChange}
+                            image={image}
+                            setImage={setImage}
+                            handleUpdate={handleUpdateCategory}
+                            onUpdateFieldChange={onUpdateFieldChange}
+                            itemToUpdate={itemToUpdate}
+                        />
+                    </form>
+                }
             />
         </>
     );

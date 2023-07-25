@@ -1,6 +1,6 @@
 import Modal from '@/components/ui/Modal';
 
-const EditDetailsModal = ({ isOpen = false, setOpen }: any) => {
+const EditDetailsModal = ({ isOpen = false, setOpen, editComponent }: any) => {
     return (
         <Modal
             isOpen={isOpen}
@@ -10,11 +10,7 @@ const EditDetailsModal = ({ isOpen = false, setOpen }: any) => {
                 </div>
             }
             title={'Edit Category Details'}
-            content={
-                <div>
-                    <div className="mb-2">Display details here</div>
-                </div>
-            }
+            content={<div>{editComponent}</div>}
             onClose={() => {
                 setOpen(false);
             }}></Modal>
