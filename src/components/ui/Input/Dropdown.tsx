@@ -36,14 +36,15 @@ export default function Dropdown({
                     onChange={(e) => setChoice && setChoice(e)}>
                     {defaultOption && <option className="text-light-200">{defaultOption}</option>}
                     {dropdownOptions.map((option: any, index: any) => {
-                        return (
-                            <option
-                                key={objKey ? option[objKey] : option}
-                                data-index={index}
-                                value={objKey ? option[objKey] : option}>
-                                {objKey ? option[objKey] : option}
-                            </option>
-                        );
+                        if ((objKey ? option[objKey] : option) !== defaultOption)
+                            return (
+                                <option
+                                    key={objKey ? option[objKey] : option}
+                                    data-index={index}
+                                    value={objKey ? option[objKey] : option}>
+                                    {objKey ? option[objKey] : option}
+                                </option>
+                            );
                     })}
                 </select>
             </div>

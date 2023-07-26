@@ -15,18 +15,18 @@ import AddSubCategory from './AddSubCategory';
 const SubCategories = () => {
     const { setError, setSuccess } = useContext(StatusContext);
 
-    const [subCategoryData, setSubCategoryData] = useState({ name: '', category: { id: '' } });
+    const [subCategoryData, setSubCategoryData] = useState({ name: '', mainCategory: { id: '' } });
     const onFieldChange = (e: { target: { name: any; value: any } }) => {
-        if (e.target.name === 'category') {
+        if (e.target.name === 'mainCategory') {
             setSubCategoryData({ ...subCategoryData, [e.target.name]: getObjectByName(e.target.value, categories) });
             return;
         }
         setSubCategoryData({ ...subCategoryData, [e.target.name]: e.target.value });
     };
 
-    const [itemToUpdate, setItemToUpdate] = useState({ id: '', name: '', category: { id: '' } });
+    const [itemToUpdate, setItemToUpdate] = useState({ id: '', name: '', mainCategory: { id: '' } });
     const onUpdateFieldChange = (e: { target: { name: any; value: any } }) => {
-        if (e.target.name === 'category') {
+        if (e.target.name === 'mainCategory') {
             setItemToUpdate({ ...itemToUpdate, [e.target.name]: getObjectByName(e.target.value, categories) });
             return;
         }
@@ -46,7 +46,7 @@ const SubCategories = () => {
     const [categories, setCategories] = useState([]);
     useEffect(() => {
         if (categories && categories.length > 0) {
-            setSubCategoryData({ ...subCategoryData, category: categories[0] });
+            setSubCategoryData({ ...subCategoryData, mainCategory: categories[0] });
         }
     }, [categories]);
 
@@ -82,7 +82,7 @@ const SubCategories = () => {
             const result = await createSubCategory({
                 variables: {
                     subCategoryName: subCategoryData.name,
-                    categoryId: subCategoryData.category.id,
+                    categoryId: subCategoryData.mainCategory.id,
                     status: true,
                 },
             });
@@ -93,7 +93,7 @@ const SubCategories = () => {
                     message: 'Sub-Category has been added successfully',
                     showSuccessBox: true,
                 });
-                setSubCategoryData({ name: '', category: { id: '' } });
+                setSubCategoryData({ name: '', mainCategory: { id: '' } });
             }
             window.location.reload();
         } catch (error) {

@@ -119,3 +119,35 @@ export const DELETE_SUBCATEGORY_MUTATION = gql`
         }
     }
 `;
+
+export const CREATE_PRODUCTATTRIBUTE_MUTATION = gql`
+    mutation CreateProductAttribute($attributeCategoryId: String!, $status: Boolean, $attributeName: String!) {
+        createProductAttribute(
+            attributeCategoryId: $attributeCategoryId
+            status: $status
+            attributeName: $attributeName
+        ) {
+            ID
+            productName
+            status
+            attributeCategoryId
+        }
+    }
+`;
+
+export const GET_ALL_PRODUCTATTRIBUTES = gql`
+    query ProductAttributes {
+        productAttributes {
+            ID
+            productName
+            status
+            attributeCategoryId
+            attributeCategory {
+                id
+                categoryName
+                categoryImgUrl
+                status
+            }
+        }
+    }
+`;
