@@ -96,3 +96,8 @@ export const generateRandomString = (length: number) => {
     }
     return result;
 };
+
+export const getObjectByName = (name: string, array: any) => {
+    const lowerCaseName = name.toLowerCase();
+    return array.find((item: any) => item.name.toLowerCase() === lowerCaseName);
+};

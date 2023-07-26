@@ -26,17 +26,6 @@ export const GET_ALL_CATEGORIES = gql`
     }
 `;
 
-export const DELETE_CATEGORY_MUTATION = gql`
-    mutation DeleteCategory($categoryId: String!) {
-        deleteCategory(categoryId: $categoryId) {
-            id
-            categoryName
-            categoryImgUrl
-            status
-        }
-    }
-`;
-
 export const UPDATE_CATEGORY_MUTATION = gql`
     mutation UpdateCategory($status: Boolean, $categoryImgUrl: String, $categoryName: String, $categoryId: String!) {
         updateCategory(
@@ -49,6 +38,84 @@ export const UPDATE_CATEGORY_MUTATION = gql`
             categoryName
             categoryImgUrl
             status
+        }
+    }
+`;
+
+export const DELETE_CATEGORY_MUTATION = gql`
+    mutation DeleteCategory($categoryId: String!) {
+        deleteCategory(categoryId: $categoryId) {
+            id
+            categoryName
+            categoryImgUrl
+            status
+        }
+    }
+`;
+
+export const CREATE_SUBCATEGORY_MUTATION = gql`
+    mutation CreateSubCategory($status: Boolean, $categoryId: String!, $subCategoryName: String!) {
+        createSubCategory(status: $status, categoryId: $categoryId, subCategoryName: $subCategoryName) {
+            id
+            subCategoryName
+            categoryId
+            status
+        }
+    }
+`;
+
+export const GET_ALL_SUBCATEGORIES = gql`
+    query {
+        getAllSubCategories {
+            id
+            subCategoryName
+            categoryId
+            status
+            mainCategory {
+                id
+                categoryName
+                categoryImgUrl
+                status
+            }
+        }
+    }
+`;
+
+export const UPDATE_SUBCATEGORY_MUTATION = gql`
+    mutation ($status: Boolean, $categoryId: String, $subCategoryName: String, $subCategoryId: String!) {
+        updateSubCategory(
+            status: $status
+            categoryId: $categoryId
+            subCategoryName: $subCategoryName
+            subCategoryId: $subCategoryId
+        ) {
+            id
+            subCategoryName
+            categoryId
+            status
+            mainCategory {
+                id
+                categoryName
+                categoryImgUrl
+                status
+            }
+        }
+    }
+`;
+
+export const DELETE_SUBCATEGORY_MUTATION = gql`
+    mutation ($subCategoryId: String!) {
+        deleteSubCategory(subCategoryId: $subCategoryId) {
+            id
+            subCategoryName
+            categoryId
+            status
+            mainCategory {
+                id
+                categoryName
+                categoryImgUrl
+                status
+            }
         }
     }
 `;

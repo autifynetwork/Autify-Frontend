@@ -2,17 +2,19 @@ import { useState, useEffect, useContext } from 'react';
 import Table from '@/components/Dashboard/Table';
 import { StatusContext } from '@/store/StatusContextProvider';
 import apolloClient from '@/lib/apollo-client';
+import { useQuery, useMutation } from '@apollo/client';
 import {
     CREATE_CATEGORY_MUTATION,
     GET_ALL_CATEGORIES,
     DELETE_CATEGORY_MUTATION,
     UPDATE_CATEGORY_MUTATION,
 } from '@/lib/queries/api';
-import { useQuery, useMutation } from '@apollo/client';
 import AddCategory from './AddCategory';
 import { generateRandomString } from '@/utils';
 
 const Categories = () => {
+    const { setError, setSuccess } = useContext(StatusContext);
+
     const [categoryData, setCategoryData] = useState({ name: '' });
     const onFieldChange = (e: { target: { name: any; value: any } }) => {
         setCategoryData({ ...categoryData, [e.target.name]: e.target.value });
@@ -34,7 +36,6 @@ const Categories = () => {
         ],
     });
 
-    const { setError, setSuccess } = useContext(StatusContext);
     const addCategory = async () => {
         let imageUrl = generateRandomString(10);
         try {
@@ -82,6 +83,7 @@ const Categories = () => {
     };
 
     const { loading, error, data } = useQuery(GET_ALL_CATEGORIES);
+    const categories = data?.getAllCategories;
     useEffect(() => {
         if (error) {
             setError({
@@ -91,10 +93,6 @@ const Categories = () => {
             });
             return;
         }
-    }, [error]);
-
-    const categories = data?.getAllCategories;
-    useEffect(() => {
         if (categories && categories.length > 0) {
             setTableData({
                 head: ['SL No', 'Name', 'Product Image', 'Status', 'Action'],
@@ -109,28 +107,7 @@ const Categories = () => {
                 }),
             });
         }
-    }, [categories]);
-
-    const [deleteCategory] = useMutation(DELETE_CATEGORY_MUTATION);
-    const handleDeleteCategory = async (categoryId: string) => {
-        try {
-            const { data } = await deleteCategory({
-                variables: { categoryId },
-            });
-
-            // Handle the response data here if needed
-            console.log('Deleted Category:', data.deleteCategory);
-            setSuccess({
-                title: 'Category deleted successfully',
-                message: 'Selected category has been deleted',
-                showSuccessBox: true,
-            });
-            window.location.reload();
-        } catch (error) {
-            // Handle the error if the mutation fails
-            console.error('Error deleting category:', error.message);
-        }
-    };
+    }, [categories, error]);
 
     const [updateCategory] = useMutation(UPDATE_CATEGORY_MUTATION);
     const handleUpdateCategory = async (categoryId: string, newCategoryData: any) => {
@@ -162,6 +139,29 @@ const Categories = () => {
         }
     };
 
+    const [deleteCategory] = useMutation(DELETE_CATEGORY_MUTATION);
+    const handleDeleteCategory = async (categoryId: string) => {
+        try {
+            const { data } = await deleteCategory({
+                variables: { categoryId },
+            });
+
+            // Handle the response data here if needed
+            console.log('Deleted Category:', data.deleteCategory);
+            setSuccess({
+                title: 'Category deleted successfully',
+                message: 'Selected category has been deleted',
+                showSuccessBox: true,
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (error) {
+            // Handle the error if the mutation fails
+            console.error('Error deleting category:', error.message);
+        }
+    };
+
     return (
         <>
             <form
@@ -189,9 +189,9 @@ const Categories = () => {
                 setItemToUpdate={setItemToUpdate}
                 editComponent={
                     <form
-                        onSubmit={(e) => {
+                        onSubmit={async (e) => {
                             e.preventDefault();
-                            handleUpdateCategory(itemToUpdate.id, itemToUpdate);
+                            await handleUpdateCategory(itemToUpdate.id, itemToUpdate);
                             window.location.reload();
                         }}
                         className="relative flex flex-col gap-8 p-10">

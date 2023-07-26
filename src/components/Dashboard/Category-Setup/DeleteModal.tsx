@@ -3,7 +3,6 @@ import Modal from '@/components/ui/Modal';
 import { isValidURL } from '@/utils';
 
 const DeleteModal = ({ isOpen, setOpen, title, confirmation, itemToDelete, type, handleDelete }: any) => {
-    console.log(itemToDelete);
     return (
         <Modal
             isOpen={isOpen}
@@ -22,13 +21,15 @@ const DeleteModal = ({ isOpen, setOpen, title, confirmation, itemToDelete, type,
                             setOpen(false);
                         }}>
                         <div className="flex flex-col justify-center items-center gap-y-6">
-                            {itemToDelete.image && isValidURL(itemToDelete.image) ? (
+                            {type == 'category' && itemToDelete.image && isValidURL(itemToDelete.image) ? (
                                 <Image src={itemToDelete.image} alt="category image" />
                             ) : (
-                                <div
-                                    className={`bg-primary-300 opacity-40 w-20 h-20 flex items-center justify-center rounded-lg text-light-100 text-xl`}>
-                                    <i className="fa-solid fa-image"></i>
-                                </div>
+                                type == 'category' && (
+                                    <div
+                                        className={`bg-primary-300 opacity-40 w-20 h-20 flex items-center justify-center rounded-lg text-light-100 text-xl`}>
+                                        <i className="fa-solid fa-image"></i>
+                                    </div>
+                                )
                             )}
 
                             <div className="flex justify-center items-center gap-x-4">

@@ -65,7 +65,7 @@ const Table = ({
                         tableData.body.map((item: any, index: number) => (
                             <tr key={item.serialNumber} className={index % 2 == 0 ? 'bg-white' : 'bg-[#F7FAFC]'}>
                                 {Object.keys(item).map((key, idx) =>
-                                    key == 'id' ? null : (
+                                    key == 'id' || key == 'mainCategory' ? null : (
                                         <td key={key} className={tableRowClasses + (idx == 0 ? ' pl-10' : '')}>
                                             {key == 'serialNumber' ? (
                                                 item.serialNumber
@@ -140,7 +140,12 @@ const Table = ({
                 </tbody>
             </table>
 
-            <EditDetailsModal isOpen={isUpdateModalOpen} setOpen={setUpdateModalOpen} editComponent={editComponent} />
+            <EditDetailsModal
+                isOpen={isUpdateModalOpen}
+                setOpen={setUpdateModalOpen}
+                editComponent={editComponent}
+                type={type}
+            />
             <DeleteModal
                 isOpen={isDeleteModalOpen}
                 setOpen={setDeleteModalOpen}
