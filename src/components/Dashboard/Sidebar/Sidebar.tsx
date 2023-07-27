@@ -98,6 +98,15 @@ const Sidebar = () => {
                         <SectionHeading>ORDER MANAGEMENT</SectionHeading>
                         <SidebarButton icon={<i className="fa-solid fa-circle"></i>} text="Orders" path={'/orders'} />
                     </div>
+
+                    <div className="flex flex-col gap-y-2">
+                        <SectionHeading>PAYMENT</SectionHeading>
+                        <SidebarButton
+                            icon={<i className="fa-solid fa-credit-card"></i>}
+                            text="Vendors Payment"
+                            path={'/vendor-setup'}
+                        />
+                    </div>
                 </div>
             </motion.div>
         </AnimatePresence>

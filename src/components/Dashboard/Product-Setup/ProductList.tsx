@@ -15,10 +15,10 @@ const ProductList = () => {
     const [tableData, setTableData] = useState({
         head: ['SL No', 'Product Image', 'Product Name', 'Status', 'Action'],
         body: [
-            { id: 1, image: '', name: 'Product 1', status: 'active' },
-            { id: 2, image: '', name: 'Product 2', status: 'active' },
-            { id: 3, image: '', name: 'Product 3', status: 'inactive' },
-            { id: 4, image: '', name: 'Product 4', status: 'active' },
+            { serialNumber: 1, image: '', name: 'Product 1', status: 'active' },
+            { serialNumber: 2, image: '', name: 'Product 2', status: 'active' },
+            { serialNumber: 3, image: '', name: 'Product 3', status: 'inactive' },
+            { serialNumber: 4, image: '', name: 'Product 4', status: 'active' },
         ],
     });
 
@@ -29,21 +29,22 @@ const ProductList = () => {
             <Table
                 header={
                     <div className="w-full flex justify-between">
-                        <TableSearch
+                        {/* <TableSearch
                             name={'tableSearchText'}
                             value={tableSearchText}
                             onFieldChange={onSearchTextChange}
                             placeholder={'Search by name or ID...'}
-                        />
+                        /> */}
+                        <div></div>
 
                         <div className="w-fit flex gap-x-4">
-                            <Button
+                            {/* <Button
                                 type={'button'}
                                 variant={'primary'}
                                 outline={true}
                                 classes={'text-xs px-4 py-2 rounded-[4px] shadow-none'}>
                                 Export to CSV <i className="fa-solid fa-download ml-2"></i>
-                            </Button>
+                            </Button> */}
                             <Button
                                 type={'button'}
                                 onClick={() => router.push('/product-setup/add-product')}

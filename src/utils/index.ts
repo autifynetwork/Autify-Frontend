@@ -1,12 +1,11 @@
-import { BigNumber, Wallet as EOAWallet } from "ethers";
-import { JsonRpcProvider } from "@ethersproject/providers";
-import { toast } from "react-toastify";
-import { activeChainId, getExplorer, getRPCProvider } from "./chainConfig";
+import { BigNumber, Wallet as EOAWallet } from 'ethers';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import { toast } from 'react-toastify';
+import { activeChainId, getExplorer, getRPCProvider } from './chainConfig';
 
-
-export function ellipseAddress(address = "", width = 10): string {
+export function ellipseAddress(address = '', width = 10): string {
     if (!address) {
-        return "";
+        return '';
     }
     return `${address.slice(0, width)}...${address.slice(-width)}`;
 }
@@ -20,7 +19,7 @@ export const getEOAWallet = (privateKey: string, provider: any) => {
 
     const wallet = new EOAWallet(privateKey);
 
-    if (typeof provider === "string") {
+    if (typeof provider === 'string') {
         return wallet.connect(new JsonRpcProvider(provider));
     } else {
         return wallet.connect(provider);
@@ -29,7 +28,7 @@ export const getEOAWallet = (privateKey: string, provider: any) => {
 
 export const showErrorMessage = (message: string) => {
     toast.error(message, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: false,
@@ -41,7 +40,7 @@ export const showErrorMessage = (message: string) => {
 
 export const showInfoMessage = (message: string) => {
     toast.info(message, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -54,9 +53,9 @@ export const showInfoMessage = (message: string) => {
 export const showSuccessMessage = (message: string, txHash?: string) => {
     toast.success(message, {
         onClick: () => {
-            window.open(`${getExplorer(activeChainId)}/tx/${txHash}`, "_blank");
+            window.open(`${getExplorer(activeChainId)}/tx/${txHash}`, '_blank');
         },
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: false,
@@ -71,19 +70,34 @@ export const copyToClipBoard = (copyMe: string) => {
     if (!copyMe) return;
     try {
         navigator.clipboard.writeText(copyMe).then(() => {
-            showSuccessMessage("Copied!");
+            showSuccessMessage('Copied!');
         });
     } catch (err) {
-        showErrorMessage("Failed to copy!");
+        showErrorMessage('Failed to copy!');
     }
 };
 
 export const formatBalance = (value: string, decimals: number) => {
     const divideBy = BigNumber.from(10).pow(BigNumber.from(decimals));
-    const balance = (parseFloat(value) / parseFloat(divideBy.toString())).toFixed(
-        4
-    );
-    console.log(" formatBalance ", balance);
+    const balance = (parseFloat(value) / parseFloat(divideBy.toString())).toFixed(4);
+    console.log(' formatBalance ', balance);
     // let res = ethers.utils.formatEther(balance);
     return balance.toString();
+};
+
+export const isValidURL = (url: string) => /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(url);
+
+export const generateRandomString = (length: number) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters.charAt(randomIndex);
+    }
+    return result;
+};
+
+export const getObjectByName = (name: string, array: any) => {
+    const lowerCaseName = name.toLowerCase();
+    return array.find((item: any) => item.name.toLowerCase() === lowerCaseName);
 };
