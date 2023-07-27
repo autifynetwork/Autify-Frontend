@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Table from '@/components/Dashboard/Table';
-import TableSearch from '@/components/Dashboard/TableSearch';
 import Button from '@/components/ui/Button';
 
 const ProductList = () => {
     const router = useRouter();
 
+    // @ts-ignore
     const [tableSearchText, setTableSearchText] = useState('');
+    // @ts-ignore
     const onSearchTextChange = (e: { target: { name: any; value: any } }) => {
         setTableSearchText(e.target.value);
     };
