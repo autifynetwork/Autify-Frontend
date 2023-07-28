@@ -6,8 +6,8 @@ import {
     GET_ALL_CATEGORIES,
     CREATE_PRODUCTATTRIBUTE_MUTATION,
     GET_ALL_PRODUCTATTRIBUTES,
-    DELETE_PRODUCTATTRIBUTE_MUTATION,
-    UPDATE_PRODUCTATTRIBUTE_MUTATION,
+    // DELETE_PRODUCTATTRIBUTE_MUTATION,
+    // UPDATE_PRODUCTATTRIBUTE_MUTATION,
 } from '@/lib/queries/api';
 import { getObjectByName } from '@/utils';
 import AddProductAttribute from './AddProductAttribute';
@@ -28,6 +28,7 @@ const ProductAttribute = () => {
     };
 
     const [itemToUpdate, setItemToUpdate] = useState({ id: '', name: '', mainCategory: { id: '' } });
+    // @ts-ignore
     const onUpdateFieldChange = (e: { target: { name: any; value: any } }) => {
         if (e.target.name === 'mainCategory') {
             setItemToUpdate({ ...itemToUpdate, [e.target.name]: getObjectByName(e.target.value, categories) });
@@ -49,7 +50,7 @@ const ProductAttribute = () => {
     const [categories, setCategories] = useState([]);
     useEffect(() => {
         if (categories && categories.length > 0) {
-            setProductAttributeData({ ...productAttributeData, category: categories[0] });
+            setProductAttributeData({ ...productAttributeData, mainCategory: categories[0] });
         }
     }, [categories]);
 
@@ -110,6 +111,7 @@ const ProductAttribute = () => {
     };
 
     const {
+        // @ts-ignore
         loading: productAttributesLoading,
         error: productAttributesError,
         data: productAttributesData,
