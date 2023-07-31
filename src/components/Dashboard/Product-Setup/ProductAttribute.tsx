@@ -92,7 +92,7 @@ const ProductAttribute = () => {
                 },
             });
 
-            if (result?.data?.createProductAttribute?.id) {
+            if (result?.data?.createProductAttribute?.ID) {
                 setSuccess({
                     title: 'Product attribute added successfully',
                     message: 'Product attribute has been added successfully',
@@ -159,7 +159,33 @@ const ProductAttribute = () => {
                 />
             </form>
 
-            <Table heading={'PRODUCT ATTRIBUTES TABLE'} tableData={tableData} setTableData={setTableData} />
+            <Table
+                loading={productAttributesLoading}
+                heading={'PRODUCT ATTRIBUTES TABLE'}
+                type={'product-attribute'}
+                tableData={tableData}
+                setTableData={setTableData}
+                // handleDelete={handleDeleteSubCategory}
+                // handleUpdate={handleUpdateSubCategory}
+                setItemToUpdate={setItemToUpdate}
+                editComponent={
+                    <form
+                        onSubmit={async (e) => {
+                            e.preventDefault();
+                            // await handleUpdateSubCategory(itemToUpdate.id, itemToUpdate);
+                        }}
+                        className="relative flex flex-col gap-8 p-10">
+                        {/* <AddSubCategory
+                            categoryData={subCategoryData}
+                            onFieldChange={onFieldChange}
+                            categories={categories}
+                            handleUpdate={handleUpdateSubCategory}
+                            onUpdateFieldChange={onUpdateFieldChange}
+                            itemToUpdate={itemToUpdate}
+                        /> */}
+                    </form>
+                }
+            />
         </>
     );
 };
