@@ -6,8 +6,8 @@ import {
     GET_ALL_CATEGORIES,
     CREATE_PRODUCTATTRIBUTE_MUTATION,
     GET_ALL_PRODUCTATTRIBUTES,
-    // DELETE_PRODUCTATTRIBUTE_MUTATION,
     // UPDATE_PRODUCTATTRIBUTE_MUTATION,
+    // DELETE_PRODUCTATTRIBUTE_MUTATION,
 } from '@/lib/queries/api';
 import { getObjectByName } from '@/utils';
 import AddProductAttribute from './AddProductAttribute';
@@ -92,7 +92,7 @@ const ProductAttribute = () => {
                 },
             });
 
-            if (result?.data?.createProductAttribute?.ID) {
+            if (result?.data?.createProductAttribute?.attributeName) {
                 setSuccess({
                     title: 'Product attribute added successfully',
                     message: 'Product attribute has been added successfully',
@@ -130,14 +130,13 @@ const ProductAttribute = () => {
             console.log('productAttributes', productAttributes);
             setTableData({
                 head: ['SL No', 'Attribute Name', 'Main Category Name', 'Status', 'Action'],
-                body: productAttributes?.map((subCategory: any, index: number) => {
+                body: productAttributes?.map((attribute: any, index: number) => {
                     return {
                         serialNumber: index + 1,
-                        id: subCategory.id,
-                        name: subCategory.subCategoryName,
-                        categoryName: subCategory.mainCategory?.categoryName,
-                        mainCategory: subCategory.mainCategory,
-                        status: subCategory.status ? 'active' : 'inactive',
+                        name: attribute.attributeName,
+                        categoryName: attribute.attributeCategory?.categoryName,
+                        mainCategory: attribute.attributeCategory,
+                        status: attribute.status ? 'active' : 'inactive',
                     };
                 }),
             });

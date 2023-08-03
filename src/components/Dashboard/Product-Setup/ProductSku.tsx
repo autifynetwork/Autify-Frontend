@@ -6,8 +6,8 @@ import {
     GET_ALL_CATEGORIES,
     CREATE_PRODUCTSKU_MUTATION,
     GET_ALL_PRODUCTSKUS,
-    // DELETE_PRODUCTSKU_MUTATION,
     // UPDATE_PRODUCTSKU_MUTATION,
+    // DELETE_PRODUCTSKU_MUTATION,
 } from '@/lib/queries/api';
 import { getObjectByName } from '@/utils';
 import AddProductSku from './AddProductSku';
@@ -85,16 +85,16 @@ const ProductSku = () => {
         try {
             const result = await createProductSku({
                 variables: {
-                    attributeName: productSkuData.name,
-                    attributeCategoryId: productSkuData.mainCategory.id,
+                    productsku: productSkuData.name,
+                    SKUCategoryId: productSkuData.mainCategory.id,
                     status: true,
                 },
             });
 
-            if (result?.data?.createProductSku?.ID) {
+            if (result?.data?.createProductSku?.productsku) {
                 setSuccess({
-                    title: 'Product attribute added successfully',
-                    message: 'Product attribute has been added successfully',
+                    title: 'Product SKU added successfully',
+                    message: 'Product SKU has been added successfully',
                     showSuccessBox: true,
                 });
                 setProductSkuData({ name: '', mainCategory: { id: '' } });
@@ -115,7 +115,7 @@ const ProductSku = () => {
         error: productSkusError,
         data: productSkusData,
     } = useQuery(GET_ALL_PRODUCTSKUS);
-    const productSkus = productSkusData?.productSkus;
+    const productSkus = productSkusData?.getAllProductSKU;
     useEffect(() => {
         if (productSkusError) {
             setError({
@@ -129,14 +129,13 @@ const ProductSku = () => {
             console.log('productSkus', productSkus);
             setTableData({
                 head: ['SL No', 'SKU Details', 'Main Category Name', 'Status', 'Action'],
-                body: productSkus?.map((subCategory: any, index: number) => {
+                body: productSkus?.map((sku: any, index: number) => {
                     return {
                         serialNumber: index + 1,
-                        id: subCategory.id,
-                        name: subCategory.subCategoryName,
-                        categoryName: subCategory.mainCategory?.categoryName,
-                        mainCategory: subCategory.mainCategory,
-                        status: subCategory.status ? 'active' : 'inactive',
+                        name: sku.productsku,
+                        categoryName: sku.SKUCategory?.categoryName,
+                        mainCategory: sku.SKUCategory,
+                        status: sku.status ? 'active' : 'inactive',
                     };
                 }),
             });

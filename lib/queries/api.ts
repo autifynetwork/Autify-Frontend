@@ -127,7 +127,6 @@ export const CREATE_PRODUCTATTRIBUTE_MUTATION = gql`
             status: $status
             attributeName: $attributeName
         ) {
-            ID
             attributeName
             status
             attributeCategoryId
@@ -138,7 +137,6 @@ export const CREATE_PRODUCTATTRIBUTE_MUTATION = gql`
 export const GET_ALL_PRODUCTATTRIBUTES = gql`
     query ProductAttributes {
         productAttributes {
-            ID
             attributeName
             status
             attributeCategoryId
@@ -155,7 +153,6 @@ export const GET_ALL_PRODUCTATTRIBUTES = gql`
 export const CREATE_PRODUCTSKU_MUTATION = gql`
     mutation CreateProductSKU($SKUCategoryId: String!, $status: Boolean, $productsku: String!) {
         createProductSKU(SKUCategoryId: $SKUCategoryId, status: $status, productsku: $productsku) {
-            ID
             productsku
             status
             SKUCategoryId
@@ -166,7 +163,6 @@ export const CREATE_PRODUCTSKU_MUTATION = gql`
 export const GET_ALL_PRODUCTSKUS = gql`
     query GetAllProductSKU {
         getAllProductSKU {
-            ID
             productsku
             status
             SKUCategoryId
