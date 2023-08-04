@@ -76,27 +76,27 @@ const Sidebar = () => {
                     </div>
 
                     <div className="flex flex-col gap-y-2">
+                        <SectionHeading>ORDER MANAGEMENT</SectionHeading>
+                        <SidebarButton icon={<i className="fa-solid fa-circle"></i>} text="Orders" path={'/orders'} />
+                    </div>
+
+                    <div className="flex flex-col gap-y-2">
                         <SectionHeading>HELP & SUPPORT SECTION</SectionHeading>
                         <SidebarButton
                             icon={<i className="fa-solid fa-clipboard-question"></i>}
                             text="Knowledge Base"
                             path={'/knowledge-base'}
                         />
-                        <SidebarButton
+                        {/* <SidebarButton
                             icon={<i className="fa-solid fa-headset"></i>}
                             text="Raise Ticket"
                             path={'/raise-ticket'}
-                        />
+                        /> */}
                         <SidebarButton
                             icon={<i className="fa-solid fa-code-pull-request"></i>}
                             text="Feature Request"
                             path={'/feature-request'}
                         />
-                    </div>
-
-                    <div className="flex flex-col gap-y-2">
-                        <SectionHeading>ORDER MANAGEMENT</SectionHeading>
-                        <SidebarButton icon={<i className="fa-solid fa-circle"></i>} text="Orders" path={'/orders'} />
                     </div>
 
                     <div className="flex flex-col gap-y-2">
