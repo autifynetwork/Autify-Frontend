@@ -9,7 +9,7 @@ const EditDetailsModal = ({ isOpen = false, setOpen, editComponent, type }: any)
                     <i className="fa-solid fa-edit"></i>
                 </div>
             }
-            title={`Edit ${type} details`}
+            title={`Edit ${type || ''} details`}
             content={<div>{editComponent}</div>}
             onClose={() => {
                 setOpen(false);
