@@ -66,18 +66,32 @@ const Sidebar = () => {
                         <SidebarButton
                             icon={<i className="fa-solid fa-gear"></i>}
                             text="Vendor Roles"
-                            path={'/vendor-roles'}
+                            path={'/vendor-setup/vendor-roles'}
                         />
-                        <SidebarButton
+                        {/* <SidebarButton
                             icon={<i className="fa-solid fa-bell"></i>}
                             text="Send Notifications"
                             path={'/send-notifications'}
-                        />
+                        /> */}
                     </div>
 
                     <div className="flex flex-col gap-y-2">
                         <SectionHeading>ORDER MANAGEMENT</SectionHeading>
-                        <SidebarButton icon={<i className="fa-solid fa-circle"></i>} text="Orders" path={'/orders'} />
+                        <SidebarButton
+                            icon={<i className="fa-solid fa-circle text-[10px]"></i>}
+                            text="Create"
+                            path={'/orders/create'}
+                        />
+                        <SidebarButton
+                            icon={<i className="fa-solid fa-circle text-[10px]"></i>}
+                            text="Track"
+                            path={'/orders/track'}
+                        />
+                        <SidebarButton
+                            icon={<i className="fa-solid fa-circle text-[10px]"></i>}
+                            text="Complete"
+                            path={'/orders/complete'}
+                        />
                     </div>
 
                     <div className="flex flex-col gap-y-2">
@@ -104,7 +118,7 @@ const Sidebar = () => {
                         <SidebarButton
                             icon={<i className="fa-solid fa-credit-card"></i>}
                             text="Vendors Payment"
-                            path={'/vendor-setup'}
+                            path={'/vendors-payment'}
                         />
                     </div>
                 </div>

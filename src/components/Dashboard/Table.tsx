@@ -13,9 +13,10 @@ const Table = ({
     tableData,
     setTableData,
     handleDelete,
-    setItemToUpdate,
-    editComponent,
-    handleUpdate,
+    setItemToUpdate = () => {},
+    editComponent = null,
+    handleUpdate = () => {},
+    ignore = false,
 }: any) => {
     const tableRowClasses = `py-3`;
     const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
@@ -24,10 +25,10 @@ const Table = ({
 
     const onTableDataChange = (e: boolean, index: number) => {
         setTableData((prevState: any) => {
-            const updatedBody = prevState.body.map(async (item: any) => {
+            const updatedBody = prevState.body.map((item: any) => {
                 if (item.serialNumber === index + 1) {
                     const updatedData = { ...item, status: e ? 'active' : 'inactive' };
-                    await handleUpdate(item.id, updatedData);
+                    if (!ignore) handleUpdate(item.id, updatedData);
                     return updatedData;
                 }
                 return item;
@@ -93,6 +94,27 @@ const Table = ({
                                             ) : key == 'mainCategoryName' ? (
                                                 <div className="rounded-md px-5 py-1 bg-[#E1F3FFD4] w-fit text-[13px] font-semibold">
                                                     {item.mainCategoryName}
+                                                </div>
+                                            ) : key == 'vendor' ? (
+                                                <div className="w-fit flex gap-x-4 justify-center items-center text-[13px] font-semibold">
+                                                    {item.vendor.image && isValidURL(item.vendor.image) ? (
+                                                        <Image src={item.vendor.image} alt="category image" />
+                                                    ) : (
+                                                        <div
+                                                            className={`bg-primary-300 opacity-40 w-12 h-12 flex items-center justify-center rounded-full text-light-100 text-xl`}>
+                                                            <i className="fa-solid fa-image"></i>
+                                                        </div>
+                                                    )}
+                                                    <div className="flex flex-col">
+                                                        {item.vendor.name}
+                                                        <span className="font-light">
+                                                            Contact: {item.vendor.contact}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ) : key == 'role' ? (
+                                                <div className="rounded-md px-5 py-1 bg-[#E1F3FFD4] w-fit text-[13px] font-semibold">
+                                                    {item.role}
                                                 </div>
                                             ) : key == 'status' ? (
                                                 <Toggle
