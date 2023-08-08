@@ -1,12 +1,12 @@
 import PageWrapper from '@/layout/PageWrapper';
 import DashboardWrapper from '@/layout/DashboardWrapper';
-import VendorsPayment from '@/components/Vendor/VendorsPayment';
+import Track from '@/components/Dashboard/OrderManagement/Track';
 
-export default function KYC(): JSX.Element {
+export default function TrackOrder(): JSX.Element {
     return (
         <PageWrapper useDefaultContainer={false}>
-            <DashboardWrapper>
-                <VendorsPayment />
+            <DashboardWrapper hideRightSidebar={true}>
+                <Track />
             </DashboardWrapper>
         </PageWrapper>
     );
