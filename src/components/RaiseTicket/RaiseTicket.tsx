@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import TextInput from '@/components/ui/Input/TextInput';
-import Textarea from '@/components/ui/Input/Textarea';
 import Button from '@/components/ui/Button';
 import Table from '@/components/Dashboard/Table';
 import TableSearch from '@/components/Dashboard/TableSearch';
