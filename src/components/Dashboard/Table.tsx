@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Toggle from '@/components/ui/Toggle';
 import EditDetailsModal from '@/components/Dashboard/Category-Setup/EditDetailsModal';
@@ -19,6 +20,7 @@ const Table = ({
     ignore = false,
     tableType,
 }: any) => {
+    const router = useRouter();
     const tableRowClasses = `py-3`;
     const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -42,7 +44,8 @@ const Table = ({
     return (
         <div
             className={
-                'flex flex-col rounded-[30px] bg-light-100 pt-5 pb-8 ' + (tableType == 'ticket' ? 'h-[80vh]' : '')
+                'flex flex-col rounded-[30px] bg-light-100 pt-5 pb-8 ' +
+                (tableType == 'ticket' || tableType == 'trackOrders' ? 'h-[80vh]' : '')
             }>
             <div className="flex justify-between items-center px-10">
                 {heading && <span className="text-xs font-semibold">{heading}</span>} {header}
@@ -120,6 +123,40 @@ const Table = ({
                                                         </span>
                                                     </div>
                                                 </div>
+                                            ) : key == 'product' ? (
+                                                <div className="w-fit flex gap-x-4 justify-center items-center text-[13px] font-semibold">
+                                                    {item.product.image && isValidURL(item.product.image) ? (
+                                                        <Image src={item.product.image} alt="category image" />
+                                                    ) : (
+                                                        <div
+                                                            className={`bg-primary-300 opacity-40 w-12 h-12 flex items-center justify-center rounded-full text-light-100 text-xl`}>
+                                                            <i className="fa-solid fa-image"></i>
+                                                        </div>
+                                                    )}
+                                                    <div className="flex flex-col">{item.product.name}</div>
+                                                </div>
+                                            ) : key == 'sku' ? (
+                                                <div className="rounded-md w-fit text-[13px] font-semibold">
+                                                    {item.sku}
+                                                </div>
+                                            ) : key == 'lastStatusUpdate' ? (
+                                                <div className="rounded-md w-fit text-[13px] font-semibold">
+                                                    {item.lastStatusUpdate}
+                                                </div>
+                                            ) : key == 'currentJourneyPoint' ? (
+                                                <div className="rounded-md w-fit text-[13px] font-semibold">
+                                                    {item.currentJourneyPoint}
+                                                </div>
+                                            ) : key == 'overallStatus' ? (
+                                                <div
+                                                    className={
+                                                        'rounded-md px-5 py-1 w-fit text-[13px] font-semibold ' +
+                                                        (item.overallStatus == 'DELAYED'
+                                                            ? 'bg-red-300'
+                                                            : 'bg-green-300')
+                                                    }>
+                                                    {item.overallStatus}
+                                                </div>
                                             ) : key == 'role' ? (
                                                 <div className="rounded-md px-5 py-1 bg-[#E1F3FFD4] w-fit text-[13px] font-semibold">
                                                     {item.role}
@@ -154,7 +191,22 @@ const Table = ({
                                     )
                                 )}
 
-                                {tableType !== 'ticket' && (
+                                {tableType == 'trackOrders' && (
+                                    <td className={tableRowClasses}>
+                                        <div className="h-full flex gap-x-4 items-center justify-start">
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    router.push(`/orders/track/product-id`);
+                                                }}
+                                                className="bg-[#E1F3FFD4] py-2 px-4 rounded-md text-primary-500 hover:text-primary-600 transition duration-300 text-sm">
+                                                <i className="fa-solid fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                )}
+
+                                {tableType !== 'ticket' && tableType !== 'trackOrders' && (
                                     <td className={tableRowClasses}>
                                         <div className="h-full flex gap-x-4 items-center justify-start">
                                             <button

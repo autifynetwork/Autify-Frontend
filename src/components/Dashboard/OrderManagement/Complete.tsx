@@ -3,7 +3,7 @@ import Table from '@/components/Dashboard/Table';
 import Button from '@/components/ui/Button';
 import TableSearch from '@/components/Dashboard/TableSearch';
 
-const Track = () => {
+const Complete = () => {
     // @ts-ignore
     const [tableSearchText, setTableSearchText] = useState('');
     // @ts-ignore
@@ -12,31 +12,14 @@ const Track = () => {
     };
 
     const [tableData, setTableData] = useState({
-        head: [
-            'SL No',
-            'Product Name',
-            'SKU',
-            'Last Status Update',
-            'Current Journey Point',
-            'Overall Status',
-            'Action',
-        ],
+        head: ['SL No', 'Product Name', 'SKU', 'Current Journey Point', 'Status', 'Action'],
         body: [
             {
                 serialNumber: 1,
                 product: { image: '', name: 'Product XYZ' },
                 sku: '#000-1000-490',
-                lastStatusUpdate: 'BOM - {{YARN}} COMPLETED',
-                currentJourneyPoint: 'BOM - {{KNITTING}} IN PROGRESS',
-                overallStatus: 'ON TIME',
-            },
-            {
-                serialNumber: 2,
-                product: { image: '', name: 'Product ABC' },
-                sku: '#000-1000-491',
-                lastStatusUpdate: 'BOM - {{YARN}} COMPLETED',
-                currentJourneyPoint: 'BOM - {{KNITTING}} IN PROGRESS',
-                overallStatus: 'DELAYED',
+                currentJourneyPoint: 'BOM - {{WAREHOUSE}}',
+                overallStatus: 'COMPLETED',
             },
         ],
     });
@@ -75,4 +58,4 @@ const Track = () => {
     );
 };
 
-export default Track;
+export default Complete;
