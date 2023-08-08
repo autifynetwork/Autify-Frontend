@@ -68,11 +68,11 @@ const Sidebar = () => {
                             text="Vendor Roles"
                             path={'/vendor-setup/vendor-roles'}
                         />
-                        {/* <SidebarButton
+                        <SidebarButton
                             icon={<i className="fa-solid fa-bell"></i>}
                             text="Send Notifications"
                             path={'/send-notifications'}
-                        /> */}
+                        />
                     </div>
 
                     <div className="flex flex-col gap-y-2">
@@ -101,15 +101,15 @@ const Sidebar = () => {
                             text="Knowledge Base"
                             path={'/knowledge-base'}
                         />
-                        {/* <SidebarButton
-                            icon={<i className="fa-solid fa-headset"></i>}
-                            text="Raise Ticket"
-                            path={'/raise-ticket'}
-                        /> */}
                         <SidebarButton
                             icon={<i className="fa-solid fa-code-pull-request"></i>}
                             text="Feature Request"
                             path={'/feature-request'}
+                        />
+                        <SidebarButton
+                            icon={<i className="fa-solid fa-headset"></i>}
+                            text="Raise Ticket"
+                            path={'/raise-ticket'}
                         />
                     </div>
 

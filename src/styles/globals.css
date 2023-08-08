@@ -190,3 +190,16 @@ canvas,
 #qr-code svg {
     border-radius: 20px;
 }
+
+/**************************************************************************/
+/******************************    Radio   ********************************/
+/**************************************************************************/
+
+input[type='checkbox']:checked + label > span {
+    background-color: #3b76ef;
+    box-shadow: 0px 0px 0px 2px white inset;
+}
+
+input[type='checkbox'] + label > span {
+    border: 2px solid #86a6e7;
+}
