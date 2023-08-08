@@ -6,6 +6,7 @@ export default function Document() {
             <Head>
                 {/* Tailwind Elements */}
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
+                <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
             </Head>
             <body>
                 <Main />

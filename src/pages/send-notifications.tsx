@@ -1,12 +1,12 @@
 import PageWrapper from '@/layout/PageWrapper';
 import DashboardWrapper from '@/layout/DashboardWrapper';
-import VendorRoles from '@/components/Dashboard/Vendor-Setup/VendorRoles';
+import SendNotifications from '@/components/Notifications/SendNotifications';
 
-export default function KYC(): JSX.Element {
+export default function Profile(): JSX.Element {
     return (
         <PageWrapper useDefaultContainer={false}>
             <DashboardWrapper>
-                <VendorRoles />
+                <SendNotifications />
             </DashboardWrapper>
         </PageWrapper>
     );

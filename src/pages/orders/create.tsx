@@ -1,12 +1,12 @@
 import PageWrapper from '@/layout/PageWrapper';
 import DashboardWrapper from '@/layout/DashboardWrapper';
-import VendorsPayment from '@/components/Vendor/VendorsPayment';
+import Create from '@/components/Dashboard/OrderManagement/Create';
 
-export default function KYC(): JSX.Element {
+export default function CreateOrder(): JSX.Element {
     return (
         <PageWrapper useDefaultContainer={false}>
             <DashboardWrapper>
-                <VendorsPayment />
+                <Create />
             </DashboardWrapper>
         </PageWrapper>
     );
