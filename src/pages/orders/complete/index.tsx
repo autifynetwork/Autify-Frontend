@@ -1,12 +1,12 @@
 import PageWrapper from '@/layout/PageWrapper';
 import DashboardWrapper from '@/layout/DashboardWrapper';
-import VendorsPayment from '@/components/Vendor/VendorsPayment';
+import Complete from '@/components/Dashboard/OrderManagement/Complete';
 
 export default function KYC(): JSX.Element {
     return (
         <PageWrapper useDefaultContainer={false}>
-            <DashboardWrapper>
-                <VendorsPayment />
+            <DashboardWrapper hideRightSidebar={true}>
+                <Complete />
             </DashboardWrapper>
         </PageWrapper>
     );
