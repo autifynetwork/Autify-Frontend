@@ -130,6 +130,7 @@ const ProductSku = () => {
             setTableData({
                 head: ['SL No', 'SKU Details', 'Main Category Name', 'Status', 'Action'],
                 body: productSkus?.map((sku: any, index: number) => {
+                    console.log(sku);
                     return {
                         serialNumber: index + 1,
                         name: sku.productsku,
