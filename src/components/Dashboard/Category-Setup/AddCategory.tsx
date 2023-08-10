@@ -1,14 +1,14 @@
-import Image from 'next/image';
+// import Image from 'next/image';
 import TextInput from '@/components/ui/Input/TextInput';
-import ImageUploadInput from '@/components/ui/Input/ImageUploadInput';
+// import ImageUploadInput from '@/components/ui/Input/ImageUploadInput';
 import Button from '@/components/ui/Button';
 import Underline from '@/components/ui/Underline';
 
 const AddCategory = ({
     categoryData,
     onFieldChange,
-    image,
-    setImage,
+    // image,
+    // setImage,
     handleUpdate,
     itemToUpdate,
     onUpdateFieldChange,
