@@ -7,8 +7,8 @@ export const CHECK_EMAIL = gql`
 `;
 
 export const CREATE_CATEGORY_MUTATION = gql`
-    mutation CreateCategoryInput($categoryName: String!, $categoryImgUrl: String!, $status: Boolean!) {
-        createCategory(categoryName: $categoryName, categoryImgUrl: $categoryImgUrl, status: $status) {
+    mutation CreateCategoryInput($categoryName: String!, $status: Boolean!) {
+        createCategory(categoryName: $categoryName, status: $status) {
             id
             categoryName
         }
@@ -20,23 +20,16 @@ export const GET_ALL_CATEGORIES = gql`
         getAllCategories {
             id
             categoryName
-            categoryImgUrl
             status
         }
     }
 `;
 
 export const UPDATE_CATEGORY_MUTATION = gql`
-    mutation UpdateCategory($status: Boolean, $categoryImgUrl: String, $categoryName: String, $categoryId: String!) {
-        updateCategory(
-            status: $status
-            categoryImgUrl: $categoryImgUrl
-            categoryName: $categoryName
-            categoryId: $categoryId
-        ) {
+    mutation UpdateCategory($status: Boolean, $categoryName: String, $categoryId: String!) {
+        updateCategory(status: $status, categoryName: $categoryName, categoryId: $categoryId) {
             id
             categoryName
-            categoryImgUrl
             status
         }
     }
@@ -47,7 +40,6 @@ export const DELETE_CATEGORY_MUTATION = gql`
         deleteCategory(categoryId: $categoryId) {
             id
             categoryName
-            categoryImgUrl
             status
         }
     }
@@ -74,7 +66,6 @@ export const GET_ALL_SUBCATEGORIES = gql`
             mainCategory {
                 id
                 categoryName
-                categoryImgUrl
                 status
             }
         }
@@ -96,7 +87,6 @@ export const UPDATE_SUBCATEGORY_MUTATION = gql`
             mainCategory {
                 id
                 categoryName
-                categoryImgUrl
                 status
             }
         }
@@ -113,7 +103,6 @@ export const DELETE_SUBCATEGORY_MUTATION = gql`
             mainCategory {
                 id
                 categoryName
-                categoryImgUrl
                 status
             }
         }
@@ -143,7 +132,6 @@ export const GET_ALL_PRODUCTATTRIBUTES = gql`
             attributeCategory {
                 id
                 categoryName
-                categoryImgUrl
                 status
             }
         }
@@ -169,7 +157,6 @@ export const GET_ALL_PRODUCTSKUS = gql`
             SKUCategory {
                 id
                 categoryName
-                categoryImgUrl
                 status
             }
         }

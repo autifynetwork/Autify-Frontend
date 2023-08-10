@@ -21,7 +21,7 @@ const AddCategory = ({
                     <Underline />
                 </div>
             )}
-            <div className={'absolute right-10 w-[100px] h-[100px] rounded-lg ' + (handleUpdate && '-mt-16')}>
+            {/* <div className={'absolute right-10 w-[100px] h-[100px] rounded-lg ' + (handleUpdate && '-mt-16')}>
                 {image ? (
                     <Image src={image} alt="image" objectFit="cover" layout="fill" className="rounded-lg" priority />
                 ) : (
@@ -30,7 +30,7 @@ const AddCategory = ({
                         <i className="fa-solid fa-image"></i>
                     </div>
                 )}
-            </div>
+            </div> */}
             <div className="grid grid-cols-2 gap-10 mt-6">
                 <TextInput
                     label={'Category Name'}
@@ -42,12 +42,12 @@ const AddCategory = ({
                     required={true}
                 />
 
-                <ImageUploadInput
+                {/* <ImageUploadInput
                     image={image}
                     setImage={setImage}
                     label={'Category Image (Ratio 1 : 1)'}
                     required={false}
-                />
+                /> */}
             </div>
             <div className="flex self-end">
                 <Button type="submit" variant="primary">

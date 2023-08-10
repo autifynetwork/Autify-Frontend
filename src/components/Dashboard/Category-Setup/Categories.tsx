@@ -27,7 +27,7 @@ const Categories = () => {
     };
 
     const [tableData, setTableData] = useState({
-        head: ['SL No', 'Name', 'Product Image', 'Status', 'Action'],
+        head: ['SL No', 'Name', 'Status', 'Action'],
         body: [
             // { serialNumber: 1, categoryName: 'Category 1', categoryImgUrl: '', status: 'active' },
             // { serialNumber: 2, categoryName: 'Category 2', categoryImgUrl: '', status: 'active' },
@@ -50,7 +50,7 @@ const Categories = () => {
                     mutation: CREATE_CATEGORY_MUTATION,
                     variables: {
                         categoryName: categoryData.name,
-                        categoryImgUrl: imageUrl,
+                        // categoryImgUrl: imageUrl,
                         status: true,
                     },
                 });
@@ -95,13 +95,13 @@ const Categories = () => {
         }
         if (categories && categories.length > 0) {
             setTableData({
-                head: ['SL No', 'Name', 'Product Image', 'Status', 'Action'],
+                head: ['SL No', 'Name', 'Status', 'Action'],
                 body: categories.map((category: any, index: number) => {
                     return {
                         serialNumber: index + 1,
                         id: category.id,
                         name: category.categoryName,
-                        image: category.categoryImgUrl,
+                        // image: category.categoryImgUrl,
                         status: category.status ? 'active' : 'inactive',
                     };
                 }),
@@ -111,13 +111,13 @@ const Categories = () => {
 
     const [updateCategory] = useMutation(UPDATE_CATEGORY_MUTATION);
     const handleUpdateCategory = async (categoryId: string, newCategoryData: any) => {
-        let imageUrl = generateRandomString(10);
+        // let imageUrl = generateRandomString(10);
         try {
             const { data } = await updateCategory({
                 variables: {
                     categoryId,
                     categoryName: newCategoryData.name,
-                    categoryImgUrl: imageUrl,
+                    // categoryImgUrl: imageUrl,
                     status: newCategoryData.status === 'active' ? true : false,
                 },
             });

@@ -50,7 +50,7 @@ const Sidebar = () => {
                             options={[
                                 { name: 'Product List', path: '/product-setup/product-list' },
                                 { name: 'Product Attribute', path: '/product-setup/product-attribute' },
-                                { name: 'Bulk Import', path: '/product-setup/bulk-import' },
+                                // { name: 'Bulk Import', path: '/product-setup/bulk-import' },
                                 { name: 'Product SKU', path: '/product-setup/product-sku' },
                             ]}
                         />
