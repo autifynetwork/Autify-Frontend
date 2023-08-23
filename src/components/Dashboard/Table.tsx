@@ -212,6 +212,14 @@ const Table = ({
                                             <button
                                                 type="button"
                                                 onClick={() => {
+                                                    if (type == 'product') {
+                                                        router.push(`/product-setup/edit-product?productId=${item.id}`);
+                                                        return;
+                                                    }
+                                                    if (type == 'vendor') {
+                                                        router.push(`/vendor-setup/edit-vendor?vendorId=${item.id}`);
+                                                        return;
+                                                    }
                                                     setItemToUpdate(item);
                                                     setUpdateModalOpen(true);
                                                 }}

@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import TextInput from '@/components/ui/Input/TextInput';
 import Underline from '@/components/ui/Underline';
 import Textarea from '@/components/ui/Input/Textarea';
 import Button from '@/components/ui/Button';
+import { StatusContext } from '@/store/StatusContextProvider';
+import apolloClient from '@/lib/apollo-client';
+import { CREATE_PRODUCT_MUTATION, GET_PRODUCT_BY_ID, UPDATE_PRODUCT_MUTATION } from '@/lib/queries/api';
+import { generateRandomString } from '@/utils';
+import { useRouter } from 'next/router';
 
 const AddProduct = () => {
+    const { setError, setSuccess } = useContext(StatusContext);
+    const router = useRouter();
+
     const [productData, setProductData] = useState({ name: '', description: '' });
     const onProductFieldChange = (e: { target: { name: any; value: any } }) => {
         setProductData({ ...productData, [e.target.name]: e.target.value });
@@ -34,8 +42,157 @@ const AddProduct = () => {
         setProductAttributeData({ ...productAttributeData, [e.target.name]: e.target.value });
     };
 
+    const addProduct = async () => {
+        let imageUrl = generateRandomString(10);
+        try {
+            // if (image) {
+            if (imageUrl) {
+                // const imageUrl = await uploadImage(image);
+                // if (!imageUrl) {
+                // setLoading({ status: false, showProgressBar: false, progress: 0 });
+                //     return;
+                // }
+                const result = await apolloClient.mutate({
+                    mutation: CREATE_PRODUCT_MUTATION,
+                    variables: {
+                        productName: productData.name,
+                        productDesc: productData.description,
+                        unit: parseInt(categoryData.unit),
+                        expiryDate: categoryData.expiry,
+                        status: true,
+                        materialUsed: productInformationData.materialUsed,
+                        location: productInformationData.location,
+                        manfactDetail: productInformationData.manufacturingDetails,
+                        cartificate: productInformationData.certifications,
+                        attributes: productAttributeData.attributes,
+                        sku: productAttributeData.sku,
+                        specialFeature: productAttributeData.specialFeatures,
+                    },
+                });
+
+                if (result?.data?.createProduct?.id) {
+                    setSuccess({
+                        title: 'Product added successfully',
+                        message: 'Product has been added successfully',
+                        showSuccessBox: true,
+                    });
+                }
+                window.location.reload();
+            } else {
+                setError({
+                    title: 'Image is required',
+                    message: 'Please upload an image',
+                    showErrorBox: true,
+                });
+            }
+        } catch (error) {
+            console.log('Error:', error);
+
+            setError({
+                title: 'Something went wrong',
+                message: error?.message || 'Please try again',
+                showErrorBox: true,
+            });
+            return;
+        }
+    };
+
+    const updateProduct = async () => {
+        let imageUrl = generateRandomString(10);
+        try {
+            // if (image) {
+            if (imageUrl) {
+                // const imageUrl = await uploadImage(image);
+                // if (!imageUrl) {
+                // setLoading({ status: false, showProgressBar: false, progress: 0 });
+                //     return;
+                // }
+                const result = await apolloClient.mutate({
+                    mutation: UPDATE_PRODUCT_MUTATION,
+                    variables: {
+                        productId: router.query.productId,
+                        productName: productData.name,
+                        productDesc: productData.description,
+                        unit: parseInt(categoryData.unit),
+                        expiryDate: categoryData.expiry,
+                        status: true,
+                        materialUsed: productInformationData.materialUsed,
+                        location: productInformationData.location,
+                        manfactDetail: productInformationData.manufacturingDetails,
+                        cartificate: productInformationData.certifications,
+                        attributes: productAttributeData.attributes,
+                        sku: productAttributeData.sku,
+                        specialFeature: productAttributeData.specialFeatures,
+                    },
+                });
+
+                if (result?.data?.updateProduct?.id) {
+                    setSuccess({
+                        title: 'Product updated successfully',
+                        message: 'Product has been updated successfully',
+                        showSuccessBox: true,
+                    });
+                }
+                window.location.reload();
+            } else {
+                setError({
+                    title: 'Image is required',
+                    message: 'Please upload an image',
+                    showErrorBox: true,
+                });
+            }
+        } catch (error) {
+            console.log('Error:', error);
+
+            setError({
+                title: 'Something went wrong',
+                message: error?.message || 'Please try again',
+                showErrorBox: true,
+            });
+            return;
+        }
+    };
+
+    const getProductData = async () => {
+        const result = await apolloClient.query({
+            query: GET_PRODUCT_BY_ID,
+            variables: {
+                productId: router.query.productId,
+            },
+        });
+        const prod = result.data.productById;
+        setProductData({ name: prod.productName, description: prod.productDesc });
+        setCategoryData({ mainCategory: '', subCategory: '', unit: prod.unit, expiry: prod.expiryDate });
+        setProductInformationData({
+            materialUsed: prod.materialUsed,
+            location: prod.location,
+            manufacturingDetails: prod.manfactDetail,
+            certifications: prod.cartificate,
+        });
+        setProductAttributeData({
+            attributes: prod.attributes,
+            sku: prod.sku,
+            specialFeatures: prod.specialFeature,
+        });
+    };
+
+    useEffect(() => {
+        if (router.query.productId) {
+            getProductData();
+        }
+    }, [router.query]);
+
     return (
-        <>
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                if (router.query.productId) {
+                    updateProduct();
+                } else {
+                    addProduct();
+                }
+            }}
+            className="relative flex flex-col gap-10">
             <div className="w-full flex gap-8">
                 <div className="relative w-full flex flex-col gap-8 rounded-[20px] bg-light-100 p-10">
                     <div>
@@ -223,16 +380,27 @@ const AddProduct = () => {
             <div className="self-center w-fit flex gap-x-6 mb-16">
                 <Button
                     type={'button'}
+                    onClick={() => {
+                        setProductData({ name: '', description: '' });
+                        setCategoryData({ mainCategory: '', subCategory: '', unit: '', expiry: '' });
+                        setProductInformationData({
+                            materialUsed: '',
+                            location: '',
+                            manufacturingDetails: '',
+                            certifications: '',
+                        });
+                        setProductAttributeData({ attributes: '', sku: '', specialFeatures: '' });
+                    }}
                     variant={'primary'}
                     outline={true}
                     classes={'text-[14px] px-4 py-3 rounded-[3px] shadow-none'}>
                     CLEAR DATA <i className="fa-solid fa-eraser ml-2"></i>
                 </Button>
-                <Button type={'button'} variant={'primary'} classes={'text-[14px] px-4 py-3 rounded-[3px] shadow-none'}>
+                <Button type={'submit'} variant={'primary'} classes={'text-[14px] px-4 py-3 rounded-[3px] shadow-none'}>
                     SAVE & UPDATE <i className="fa-regular fa-floppy-disk ml-2"></i>
                 </Button>
             </div>
-        </>
+        </form>
     );
 };
 
