@@ -17,7 +17,7 @@ import {
 } from '../constants/userConstants';
 import { magic } from '@/lib/magic';
 import apolloClient from '@/lib/apollo-client';
-import { CHECK_EMAIL } from '@/lib/queries/api';
+import { GET_PROFILE_EMAIL } from '@/lib/queries/api';
 
 // Email whitelist check
 export const emailWhitelistCheck = (email: string) => async (dispatch: any) => {
@@ -27,13 +27,13 @@ export const emailWhitelistCheck = (email: string) => async (dispatch: any) => {
         // TODO: Make API call to validate email whitelist status
         // const whitelisted = email.endsWith('autify.network');
         const result = await apolloClient.query({
-            query: CHECK_EMAIL,
+            query: GET_PROFILE_EMAIL,
             variables: {
                 email,
             },
         });
 
-        if (result.data.checkEmail === 'true') {
+        if (result.data.getProfileEmail.id) {
             dispatch({
                 type: EMAIL_WHITELIST_CHECK_SUCCESS,
             });

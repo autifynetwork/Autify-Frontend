@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Modal from '@/components/ui/Modal';
 import Underline from '@/components/ui/Underline';
 import TextInput from '@/components/ui/Input/TextInput';
 import Textarea from '@/components/ui/Input/Textarea';
 import Button from '@/components/ui/Button';
+import { StatusContext } from '@/store/StatusContextProvider';
+import apolloClient from '@/lib/apollo-client';
+import { CREATE_BOM_MUTATION } from '@/lib/queries/api';
 
 const AddBillOfMaterialsModal = ({ isOpen, setOpen, title }: any) => {
+    const { setError, setSuccess } = useContext(StatusContext);
+
     const [bomData, setBomData] = useState({
         title: '',
         description: '',
@@ -18,6 +23,42 @@ const AddBillOfMaterialsModal = ({ isOpen, setOpen, title }: any) => {
         setBomData({ ...bomData, [e.target.name]: e.target.value });
     };
 
+    const addBom = async () => {
+        try {
+            const result = await apolloClient.mutate({
+                mutation: CREATE_BOM_MUTATION,
+                variables: {
+                    title: bomData.title,
+                    description: bomData.description,
+                    vendorId: bomData.vendor,
+                    // TODO: change
+                    // dueDate: bomData.dueDate,
+                    dueDate: '2023-06-15T10:00:00Z',
+                    instructions: bomData.instructionsToVendors,
+                    remarks: bomData.remarks,
+                },
+            });
+
+            if (result?.data?.populateBom?.id) {
+                setSuccess({
+                    title: 'BOM added successfully',
+                    message: 'BOM has been added successfully',
+                    showSuccessBox: true,
+                });
+            }
+            window.location.reload();
+        } catch (error) {
+            console.log('Error:', error);
+
+            setError({
+                title: 'Something went wrong',
+                message: error?.message || 'Please try again',
+                showErrorBox: true,
+            });
+            return;
+        }
+    };
+
     return (
         <Modal
             isOpen={isOpen}
@@ -27,6 +68,7 @@ const AddBillOfMaterialsModal = ({ isOpen, setOpen, title }: any) => {
                     <form
                         onSubmit={async (e) => {
                             e.preventDefault();
+                            await addBom();
                             setOpen(false);
                         }}
                         className="w-full flex flex-col justify-center">
@@ -118,7 +160,7 @@ const AddBillOfMaterialsModal = ({ isOpen, setOpen, title }: any) => {
                                 CLEAR DATA <i className="fa-solid fa-eraser ml-2"></i>
                             </Button>
                             <Button
-                                type={'button'}
+                                type={'submit'}
                                 variant={'primary'}
                                 classes={'text-[14px] px-4 py-3 rounded-[3px] shadow-none'}>
                                 SAVE & UPDATE <i className="fa-regular fa-floppy-disk ml-2"></i>

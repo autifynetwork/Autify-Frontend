@@ -45,13 +45,13 @@ const RaiseTicket = () => {
                     />
 
                     <div className="w-fit flex gap-x-4">
-                        <Button
+                        {/* <Button
                             type={'button'}
                             variant={'primary'}
                             outline={true}
                             classes={'text-xs px-4 py-2 rounded-[4px] shadow-none'}>
                             Export to CSV <i className="fa-solid fa-download ml-2"></i>
-                        </Button>
+                        </Button> */}
                         <Button
                             type={'button'}
                             onClick={() => {}}
